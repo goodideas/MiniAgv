@@ -20,6 +20,11 @@ public class ManualModeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manual_mode);
 
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setTitle("手动模式");
+        }
+
         seekBar1 = (VerticalSeekBar)findViewById(R.id.seekBar1);
         seekBar2 = (VerticalSeekBar)findViewById(R.id.seekBar2);
 

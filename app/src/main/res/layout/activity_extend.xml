@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_bg"
+    tools:context="com.example.administrator.miniagv.activity.ExtendActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            >
+
+    <RelativeLayout
+        android:gravity="center"
+        android:id="@+id/rlColor"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <com.example.administrator.miniagv.views.ColorPicker xmlns:color="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/colorPicker"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            color:color_center_radius="60dp"
+            color:color_wheel_thickness="20dp" />
+
+
+        <TextView
+            android:id="@+id/tvShowG"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/colorPicker"
+            android:layout_toRightOf="@+id/colorPicker"
+            android:text="G" />
+
+        <TextView
+            android:id="@+id/tvShowR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tvShowG"
+            android:layout_marginBottom="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@+id/colorPicker"
+            android:layout_toRightOf="@+id/colorPicker"
+            android:text="R" />
+
+        <TextView
+            android:id="@+id/tvShowB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvShowG"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"
+            android:layout_toEndOf="@+id/colorPicker"
+            android:layout_toRightOf="@+id/colorPicker"
+            android:text="B" />
+
+        <EditText
+            android:enabled="false"
+            android:textColor="#FFF"
+            android:background="@drawable/edit_text_bg"
+            android:id="@+id/etR"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvShowR"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_toEndOf="@+id/tvShowG"
+            android:layout_toRightOf="@+id/tvShowG"
+            android:maxLength="3"
+            android:maxLines="1" />
+
+        <EditText
+            android:enabled="false"
+            android:textColor="#FFF"
+            android:background="@drawable/edit_text_bg"
+            android:id="@+id/etG"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvShowG"
+            android:layout_alignLeft="@+id/etR"
+            android:layout_alignStart="@+id/etR"
+            android:maxLength="3"
+            android:maxLines="1" />
+
+        <EditText
+            android:enabled="false"
+            android:textColor="#FFF"
+            android:background="@drawable/edit_text_bg"
+            android:id="@+id/etB"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/tvShowB"
+            android:layout_alignLeft="@+id/etG"
+            android:layout_alignStart="@+id/etG"
+            android:maxLength="3"
+            android:maxLines="1" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+
+        android:id="@+id/llColorTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlColor"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvShowTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="显示时间(秒):" />
+
+        <TextView
+            android:id="@+id/tvColorTime"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginStart="4dp"
+            android:text=""
+            android:textColor="#FFF" />
+
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/seekBarColorTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="255" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_marginTop="10dp"
+        android:id="@+id/btnColor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llColorTime"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/btn_background"
+        android:text="确定LED" />
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+
+        android:id="@+id/llBuzzer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnColor">
+
+
+        <TextView
+            android:id="@+id/tvShowBuzzer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="蜂鸣器频率:" />
+
+        <TextView
+            android:id="@+id/tvBuzzerHz"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#FFF"
+            />
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/seekBarBuzzerHz"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="255" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/llBuzzerTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llBuzzer">
+
+
+        <TextView
+            android:id="@+id/tvShowBuzzerTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="蜂鸣器时间(秒):" />
+
+        <TextView
+            android:id="@+id/tvBuzzerTime"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#FFF"
+            />
+        <android.support.v7.widget.AppCompatSeekBar
+            android:id="@+id/seekBarBuzzerTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:max="255" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnBuzzer"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llBuzzerTime"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/btn_background"
+        android:text="确定蜂鸣器" />
+
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

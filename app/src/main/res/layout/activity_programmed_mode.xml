@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/main_bg"
     tools:context=".activity.ProgrammedModeActivity">
 
     <Button
@@ -11,13 +12,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="退出RFID编程" />
+        android:text="退出RFID编程"
+
+        />
 
     <Button
         android:id="@+id/btnProgrammed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="编程"
+
         android:layout_marginTop="20dp"
         android:layout_below="@+id/ll5"
         android:layout_centerHorizontal="true" />
