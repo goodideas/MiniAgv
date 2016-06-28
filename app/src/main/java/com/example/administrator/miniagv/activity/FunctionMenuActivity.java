@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -28,7 +29,8 @@ public class FunctionMenuActivity extends AppCompatActivity implements View.OnCl
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("选择功能");
+            actionBar.setTitle("解锁AGV");
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
         int screenWidth = Util.getScreenWidth(this);
         int btnMeasure = (int)(screenWidth*0.4);
@@ -55,6 +57,16 @@ public class FunctionMenuActivity extends AppCompatActivity implements View.OnCl
         btnRFIDProgrammed.setOnClickListener(this);
         btnAutoMode.setOnClickListener(this);
         btnExtend.setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

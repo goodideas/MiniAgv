@@ -3,6 +3,7 @@ package com.example.administrator.miniagv.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.SeekBar;
 
 import com.example.administrator.miniagv.R;
@@ -22,7 +23,8 @@ public class ManualModeActivity extends AppCompatActivity {
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if(actionBar!=null){
-            actionBar.setTitle("手动模式");
+            actionBar.setTitle("选择功能");
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
         seekBar1 = (VerticalSeekBar)findViewById(R.id.seekBar1);
@@ -64,4 +66,15 @@ public class ManualModeActivity extends AppCompatActivity {
         });
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

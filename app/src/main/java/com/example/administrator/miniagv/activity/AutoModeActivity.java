@@ -2,6 +2,7 @@ package com.example.administrator.miniagv.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.example.administrator.miniagv.R;
 
@@ -14,8 +15,19 @@ public class AutoModeActivity extends AppCompatActivity {
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if(actionBar!=null){
-            actionBar.setTitle("自动模式");
+            actionBar.setTitle("选择功能");
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

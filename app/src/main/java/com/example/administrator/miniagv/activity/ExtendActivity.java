@@ -4,6 +4,7 @@ package com.example.administrator.miniagv.activity;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -25,7 +26,8 @@ public class ExtendActivity extends AppCompatActivity implements SeekBar.OnSeekB
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("扩展");
+            actionBar.setTitle("选择功能");
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
         colorPicker = (ColorPicker) findViewById(R.id.colorPicker);
@@ -81,4 +83,15 @@ public class ExtendActivity extends AppCompatActivity implements SeekBar.OnSeekB
     public void onStopTrackingTouch(SeekBar seekBar) {
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
