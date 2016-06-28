@@ -47,6 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+
         >
 
     <Button
@@ -54,38 +55,46 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="开始循迹"
-
+        android:layout_marginBottom="4dp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/btn_background"
         />
 
     <EditText
         android:id="@+id/etStartSpeed"
+        android:maxLines="1"
+        android:maxLength="2"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
         android:layout_width="35dp"
         android:background="@drawable/edit_text_bg"
-        android:layout_height="40dp"/>
+        android:layout_height="50dp"/>
 
     <Button
         android:id="@+id/btnStopTracking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="停止循迹"
-
+        android:layout_marginBottom="4dp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/btn_background"
        />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnExitAutoMode"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-
-        android:text="退出自动模式" />
+    <!--<Button-->
+        <!--android:id="@+id/btnExitAutoMode"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:text="退出自动模式" />-->
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/btnExitAutoMode"
-        android:layout_marginBottom="100dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="120dp"
         >
 
         <TableRow>
@@ -96,7 +105,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:background="#19d435"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/tv_auto_bg"
                 android:text="左轮速度" />
 
             <TextView
@@ -105,8 +118,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-
-                android:background="#19d435"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/tv_auto_bg"
                 android:text="右轮速度"
 
                 />
@@ -117,8 +133,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-
-                android:background="#19d435"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:background="@drawable/tv_auto_bg"
                 android:text="距离" />
 
         </TableRow>
@@ -130,10 +149,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#19d435"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="4dp"
                 android:text="获取左轮速度"
                 android:gravity="center"
                 android:textColor="#FFFFFF"
+                android:background="@drawable/btn_auto_bg"
                 />
 
             <Button
@@ -141,10 +163,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#19d435"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="4dp"
                 android:gravity="center"
                 android:text="获取右轮速度"
                 android:textColor="#FFFFFF"
+                android:background="@drawable/btn_auto_bg"
                 />
 
             <Button
@@ -152,7 +177,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="#19d435"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/btn_auto_bg"
                 android:gravity="center"
                 android:textColor="#FFFFFF"
                 android:text="距离"
