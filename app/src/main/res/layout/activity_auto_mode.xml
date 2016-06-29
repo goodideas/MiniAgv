@@ -106,7 +106,6 @@
         <TableRow>
 
             <TextView
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -244,7 +243,11 @@
 
         <TableRow>
 
+            <!--<android.support.v7.widget.AppCompatButton />-->
+
+
             <Button
+                style="?android:attr/buttonBarButtonStyle"
                 android:id="@+id/btnLeftWheelSpeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -259,6 +262,7 @@
                 />
 
             <Button
+                style="?android:attr/buttonBarButtonStyle"
                 android:id="@+id/btnRightWheelSpeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -273,6 +277,7 @@
                 />
 
             <Button
+                style="?android:attr/buttonBarButtonStyle"
                 android:id="@+id/btnDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -283,7 +288,7 @@
                 android:background="@drawable/btn_auto_bg"
                 android:gravity="center"
                 android:textColor="#FFFFFF"
-                android:text="距离"
+                android:text="获取距离"
 
                 />
 
