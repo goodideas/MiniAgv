@@ -55,27 +55,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="开始循迹"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:textColor="#FFFFFF"
         android:background="@drawable/btn_background"
         />
 
     <EditText
+        android:inputType="number"
+        android:hint="速度"
         android:id="@+id/etStartSpeed"
         android:maxLines="1"
         android:maxLength="2"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        android:layout_width="35dp"
+        android:layout_marginTop="4dp"
+        android:layout_width="70dp"
+        android:layout_height="42dp"
         android:background="@drawable/edit_text_bg"
-        android:layout_height="50dp"/>
+        />
 
     <Button
         android:id="@+id/btnStopTracking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="停止循迹"
+        android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:textColor="#FFFFFF"
         android:background="@drawable/btn_background"
@@ -100,47 +106,141 @@
         <TableRow>
 
             <TextView
-                android:id="@+id/tvLeftWheelSpeed"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:paddingTop="4dp"
-                android:paddingBottom="4dp"
+
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
                 android:background="@drawable/tv_auto_bg"
-                android:text="左轮速度" />
+                android:text="左轮速度"
+                android:maxLines="2"
+                android:maxEms="4"
+                />
 
             <TextView
-                android:id="@+id/tvRightWheelSpeed"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:paddingTop="4dp"
-                android:paddingBottom="4dp"
+
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
                 android:background="@drawable/tv_auto_bg"
                 android:text="右轮速度"
-
+                android:maxLines="2"
+                android:maxEms="4"
                 />
 
             <TextView
-                android:id="@+id/tvDistance"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:paddingTop="4dp"
-                android:paddingBottom="4dp"
+
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
                 android:background="@drawable/tv_auto_bg"
+                android:maxEms="2"
                 android:text="距离" />
 
         </TableRow>
+
+        <TableRow>
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:paddingBottom="4dp"
+                android:background="#19d435"
+                android:text="(cm/min)"
+                />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:background="#19d435"
+                android:text="(cm/min)"
+                />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:background="#19d435"
+                android:text="(cm)"
+                />
+
+        </TableRow>
+
+        <TableRow>
+        <TextView
+            android:id="@+id/tvLeftWheelSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/tv_auto_bg2"
+            android:text="速度" />
+
+        <TextView
+            android:id="@+id/tvRightWheelSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/tv_auto_bg2"
+            android:text="速度"
+
+            />
+
+        <TextView
+            android:id="@+id/tvDistance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/tv_auto_bg2"
+            android:text="距离" />
+
+    </TableRow>
+
+
 
         <TableRow>
 

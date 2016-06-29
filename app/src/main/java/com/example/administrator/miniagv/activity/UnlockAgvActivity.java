@@ -21,8 +21,9 @@ public class UnlockAgvActivity extends AppCompatActivity implements View.OnClick
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if(actionBar!=null){
             actionBar.setTitle("主页面");
-            actionBar.setDisplayHomeAsUpEnabled(true);
 
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setSubtitle("解锁AGV");
         }
 
         btnUnlockAgv = (Button)findViewById(R.id.btnUnlockAgv);

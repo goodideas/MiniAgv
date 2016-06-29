@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.administrator.miniagv.R;
 
@@ -15,9 +16,10 @@ import com.example.administrator.miniagv.R;
 public class ProgrammedItem extends LinearLayout {
 
     private EditText etLoc, etRFID, etContent, etSpeed;
+    private TextView tvNumber;
 
-    public ProgrammedItem(Context context){
-        this(context,null);
+    public ProgrammedItem(Context context) {
+        this(context, null);
     }
 
 
@@ -30,6 +32,7 @@ public class ProgrammedItem extends LinearLayout {
         etRFID = (EditText) findViewById(R.id.etRFID);
         etContent = (EditText) findViewById(R.id.etContent);
         etSpeed = (EditText) findViewById(R.id.etSpeed);
+        tvNumber = (TextView) findViewById(R.id.tvNumber);
 
     }
 
@@ -49,5 +52,8 @@ public class ProgrammedItem extends LinearLayout {
         return etSpeed.getText().toString();
     }
 
+    public void setTvNumber(String text){
+        tvNumber.setText(text);
+    }
 
 }

@@ -17,6 +17,7 @@ public class AutoModeActivity extends AppCompatActivity {
         if(actionBar!=null){
             actionBar.setTitle("选择功能");
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setSubtitle("自动模式");
         }
 
     }

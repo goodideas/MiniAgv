@@ -28,6 +28,7 @@ public class ExtendActivity extends AppCompatActivity implements SeekBar.OnSeekB
         if (actionBar != null) {
             actionBar.setTitle("选择功能");
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setSubtitle("扩展");
         }
 
         colorPicker = (ColorPicker) findViewById(R.id.colorPicker);

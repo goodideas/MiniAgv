@@ -25,6 +25,7 @@ public class ManualModeActivity extends AppCompatActivity {
         if(actionBar!=null){
             actionBar.setTitle("选择功能");
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setSubtitle("手动模式");
         }
 
         seekBar1 = (VerticalSeekBar)findViewById(R.id.seekBar1);
