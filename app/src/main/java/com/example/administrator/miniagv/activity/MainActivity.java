@@ -5,10 +5,15 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 
 import com.example.administrator.miniagv.R;
@@ -31,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int lastSelect = -1;
     private boolean isSelect = false;
     private int selected = -1;
+    private LinearLayout.LayoutParams params = new
+            LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             actionBar.setTitle("MiniAGV");
         }
 
-
         btnConnectAgv = (Button) findViewById(R.id.btnConnectAgv);
         btnSearchAgv = (Button) findViewById(R.id.btnSearchAgv);
         lvAgv = (ListView) findViewById(R.id.lvAgv);
@@ -52,6 +58,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnSearchAgv.setOnClickListener(this);
         agvAdapter = new AgvAdapter(this, list);
         lvAgv.setAdapter(agvAdapter);
+
+        View emptyView = LayoutInflater.from(this).inflate(R.layout.programmed_list_empty_layout, null);
+
+        params.gravity = Gravity.CENTER;
+                ((ViewGroup) lvAgv.getParent()).addView(emptyView,params);
+        lvAgv.setEmptyView(emptyView);
 
         lvAgv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -71,6 +83,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ToastUtil.customToast(MainActivity.this, "setOnItemClickListener=" + String.valueOf(position));
                 selected = isSelect ? position : -1;
                 lastSelect = position;
+            }
+        });
+
+        lvAgv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                list.remove(position);
+                agvAdapter.notifyDataSetChanged();
+                return true;
             }
         });
 
@@ -96,11 +117,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 agvBean.setGavId(String.valueOf(c++));
                 list.add(agvBean);
                 agvAdapter.notifyDataSetChanged();
-//                lvAgv.setSelection(lvAgv.getBottom());
-//                lvAgv.scrollTo(0, lvAgv.getBottom());
                 lvAgv.smoothScrollToPosition(list.size());
-
-
                 Log.e(TAG, "listSize=" + list.size() + " c=" + c);
                 break;
         }

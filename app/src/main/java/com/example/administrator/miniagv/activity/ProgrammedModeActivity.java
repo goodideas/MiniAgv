@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,6 +40,8 @@ public class ProgrammedModeActivity extends AppCompatActivity {
     private ScrollView svProgrammedItem;
     private TextView tvCountItem;
     private View emptyView;
+    private LinearLayout.LayoutParams params = new
+            LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +71,10 @@ public class ProgrammedModeActivity extends AppCompatActivity {
             }
         });
 
+        params.gravity = Gravity.CENTER;
         emptyView = LayoutInflater.from(this).inflate(R.layout.programmed_list_empty_layout,null);
         if(programmedItemList.size() == 0){
-            llProgrammedItem.addView(emptyView);
+            llProgrammedItem.addView(emptyView,params);
         }
 
 
