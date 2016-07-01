@@ -1,5 +1,6 @@
 package com.example.administrator.miniagv.activity;
 
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,20 +8,25 @@ import android.view.MenuItem;
 import android.widget.SeekBar;
 
 import com.example.administrator.miniagv.R;
+import com.example.administrator.miniagv.utils.ToastUtil;
+import com.example.administrator.miniagv.views.SimpleSpeedSeekBarAdapter;
+import com.example.administrator.miniagv.views.SpeedSeekBar;
+import com.example.administrator.miniagv.views.SpeedSeekBarListener;
 import com.example.administrator.miniagv.views.VerticalSeekBar;
 
 public class ManualModeActivity extends AppCompatActivity {
 
     private static final String TAG = "ManualModeActivity";
 
-    private VerticalSeekBar seekBar1;
-    private VerticalSeekBar seekBar2;
+    private SpeedSeekBar seekBarLeft;
+    private SpeedSeekBar seekBarRight;
+    private SpeedSeekBar speedSeekBarCenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manual_mode);
-
+        final Resources resources = getResources();
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if(actionBar!=null){
             actionBar.setTitle("选择功能");
@@ -28,41 +34,58 @@ public class ManualModeActivity extends AppCompatActivity {
             actionBar.setSubtitle("手动模式");
         }
 
-        seekBar1 = (VerticalSeekBar)findViewById(R.id.seekBar1);
-        seekBar2 = (VerticalSeekBar)findViewById(R.id.seekBar2);
+        seekBarLeft = (SpeedSeekBar)findViewById(R.id.speedSeekBarLeft);
+        seekBarRight = (SpeedSeekBar)findViewById(R.id.speedSeekBarRight);
+        speedSeekBarCenter = (SpeedSeekBar)findViewById(R.id.speedSeekBarCenter);
+        speedSeekBarCenter.setAdapter(new SimpleSpeedSeekBarAdapter(resources, new int[]{
+                R.drawable.btn_star5_selector,
+                R.drawable.btn_star4_selector,
+                R.drawable.btn_star3_selector,
+                R.drawable.btn_star2_selector,
+                R.drawable.btn_star1_selector,
+                R.drawable.btn_star0_selector
+        }));
+        seekBarLeft.setAdapter(new SimpleSpeedSeekBarAdapter(resources, new int[]{
+                R.drawable.btn_star5_selector,
+                R.drawable.btn_star4_selector,
+                R.drawable.btn_star3_selector,
+                R.drawable.btn_star2_selector,
+                R.drawable.btn_star1_selector,
+                R.drawable.btn_star0_selector
+        }));
+        seekBarRight.setAdapter(new SimpleSpeedSeekBarAdapter(resources, new int[]{
+                R.drawable.btn_star5_selector,
+                R.drawable.btn_star4_selector,
+                R.drawable.btn_star3_selector,
+                R.drawable.btn_star2_selector,
+                R.drawable.btn_star1_selector,
+                R.drawable.btn_star0_selector
+        }));
 
-        seekBar1.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBarLeft.setPosition(5);
+        seekBarRight.setPosition(5);
+        speedSeekBarCenter.setPosition(5);
+
+
+        speedSeekBarCenter.setListener(new SpeedSeekBarListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                Log.e(TAG,"onProgressChanged seekBar1 progress="+progress);
+            public void onPositionSelected(int position) {
+                seekBarLeft.setPosition(position);
+                seekBarRight.setPosition(position);
             }
-
+        });
+        seekBarLeft.setListener(new SpeedSeekBarListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                Log.e(TAG,"onStopTrackingTouch seekBar1 progress="+seekBar.getProgress());
+            public void onPositionSelected(int position) {
+                ToastUtil.customToast(ManualModeActivity.this,"seekBarLeft position="+(5-position));
             }
         });
 
-
-        seekBar2.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        seekBarRight.setListener(new SpeedSeekBarListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//                Log.e(TAG,"onProgressChanged seekBar2 progress="+progress);
-            }
+            public void onPositionSelected(int position) {
+                ToastUtil.customToast(ManualModeActivity.this,"seekBarRight position="+(5-position));
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                Log.e(TAG,"onStopTrackingTouch seekBar2 progress="+seekBar.getProgress());
             }
         });
 

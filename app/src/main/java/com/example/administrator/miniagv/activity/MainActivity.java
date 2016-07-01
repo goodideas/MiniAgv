@@ -108,6 +108,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ToastUtil.customToast(this,"选择了"+String.valueOf(selected));
                     agvAdapter.setSelected(selected, false);
                     agvAdapter.notifyDataSetChanged();
+                    selected = -1;
+                    isSelect = false;
                     startActivity(new Intent(MainActivity.this, UnlockAgvActivity.class));
                 }
 

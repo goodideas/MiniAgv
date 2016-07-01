@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,47 +8,141 @@
     tools:context=".activity.ManualModeActivity">
 
     <TextView
+        android:id="@+id/tvShowFaultId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="故障ID"
-        android:id="@+id/tvShowFaultId"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentTop="true"
+        android:text="故障ID" />
 
-    <!--<Button-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="退出手动模式"-->
-        <!--android:id="@+id/btnExitManualMode"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:layout_centerHorizontal="true" />-->
+
+
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/llSeekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <!--<com.example.administrator.miniagv.views.VerticalSeekBar-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:id="@+id/seekBar1"-->
+        <!--android:layout_marginRight="40dp"-->
+        <!--android:layout_marginEnd="40dp"-->
+        <!--android:max="6"-->
+        <!--/>-->
+
+
+        <com.example.administrator.miniagv.views.SpeedSeekBar
+            android:id="@+id/speedSeekBarLeft"
+            android:layout_weight="1"
+            android:layout_width="100dp"
+            android:layout_height="240dp"
+
+            app:phased_anchor_height="20dp"
+            app:phased_anchor_width="20dp"
+            app:phased_base_background="@drawable/speed_seek_bar_bg"
+            app:phased_base_margin_bottom="10dp"
+            app:phased_base_margin_left="20dp"
+            app:phased_base_margin_right="20dp"
+            app:phased_base_margin_top="10dp"
+            app:phased_draw_on_off="false"
+            app:phased_fix_point="true"
+            app:phased_item_height="40dp"
+            app:phased_item_width="40dp"
+            app:phased_mode="vertical" />
+
+
+        <com.example.administrator.miniagv.views.SpeedSeekBar
+            android:layout_weight="1"
+            android:id="@+id/speedSeekBarCenter"
+            android:layout_width="100dp"
+            android:layout_height="300dp"
+            app:phased_anchor_height="40dp"
+            app:phased_anchor_width="40dp"
+            app:phased_base_background="#124589"
+            app:phased_base_margin_bottom="10dp"
+            app:phased_base_margin_left="20dp"
+            app:phased_base_margin_right="20dp"
+            app:phased_base_margin_top="10dp"
+            app:phased_draw_on_off="false"
+            app:phased_fix_point="true"
+            app:phased_item_height="40dp"
+            app:phased_item_width="40dp"
+            app:phased_mode="vertical" />
+
+
+        <com.example.administrator.miniagv.views.SpeedSeekBar
+            android:id="@+id/speedSeekBarRight"
+            android:layout_weight="1"
+            android:layout_width="100dp"
+            android:layout_height="240dp"
+
+
+            app:phased_anchor_height="40dp"
+            app:phased_anchor_width="40dp"
+            app:phased_base_background="@drawable/speed_seek_bar_bg"
+            app:phased_base_margin_bottom="10dp"
+            app:phased_base_margin_left="20dp"
+            app:phased_base_margin_right="20dp"
+            app:phased_base_margin_top="10dp"
+            app:phased_draw_on_off="false"
+            app:phased_fix_point="true"
+            app:phased_item_height="40dp"
+            app:phased_item_width="40dp"
+            app:phased_mode="vertical" />
+
+        <!--<com.example.administrator.miniagv.views.VerticalSeekBar-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:layout_marginLeft="40dp"-->
+        <!--android:layout_marginStart="40dp"-->
+        <!--android:id="@+id/seekBar2"-->
+        <!--android:max="6"-->
+        <!--/>-->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_above="@id/llSeekBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
+        android:gravity="center"
+        >
 
-    <com.example.administrator.miniagv.views.VerticalSeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:id="@+id/seekBar1"
-        android:layout_marginRight="40dp"
-        android:layout_marginEnd="40dp"
-        android:max="6"
-        />
-
+        <TextView
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="左轮速度"
+            android:textColor="#FFFFFF"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
-    <com.example.administrator.miniagv.views.VerticalSeekBar
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginStart="40dp"
-        android:id="@+id/seekBar2"
-        android:max="6"
-        />
+        <TextView
+            android:layout_weight="1"
+            android:text="整体速度"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:layout_weight="1"
+            android:text="右轮速度"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
     </LinearLayout>
+
+
 </RelativeLayout>
