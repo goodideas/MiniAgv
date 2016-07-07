@@ -2,10 +2,15 @@ package com.example.administrator.miniagv.activity;
 
 
 import android.content.Intent;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +18,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-
+import android.widget.Toast;
 
 import com.example.administrator.miniagv.R;
 import com.example.administrator.miniagv.entity.AgvBean;
@@ -36,6 +40,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int lastSelect = -1;
     private boolean isSelect = false;
     private int selected = -1;
+    private Toolbar toolbar;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout mDrawerLayout;
+    private long exitTime = 0;
     private LinearLayout.LayoutParams params = new
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
@@ -44,22 +52,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle("MiniAGV");
-        }
-
+        toolbar = (Toolbar)findViewById(R.id.toolBar);
         btnConnectAgv = (Button) findViewById(R.id.btnConnectAgv);
         btnSearchAgv = (Button) findViewById(R.id.btnSearchAgv);
         lvAgv = (ListView) findViewById(R.id.lvAgv);
+        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
+
+        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.WhiteColor));
+        setSupportActionBar(toolbar);
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
 
         btnConnectAgv.setOnClickListener(this);
         btnSearchAgv.setOnClickListener(this);
         agvAdapter = new AgvAdapter(this, list);
         lvAgv.setAdapter(agvAdapter);
 
-        View emptyView = LayoutInflater.from(this).inflate(R.layout.programmed_list_empty_layout, null);
+        View emptyView = LayoutInflater.from(this).inflate(R.layout.programmed_list_empty_layout,null );
+
 
         params.gravity = Gravity.CENTER;
                 ((ViewGroup) lvAgv.getParent()).addView(emptyView,params);
@@ -96,6 +108,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
+        mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this,mDrawerLayout,toolbar,
+                R.string.app_name,R.string.app_name){
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                drawerView.setClickable(true);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                drawerView.setClickable(false);
+            }
+        };
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
     }
 
     @Override
@@ -124,4 +154,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && event.getAction() == KeyEvent.ACTION_DOWN) {
+
+            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            } else if (System.currentTimeMillis() - exitTime > 2000) {
+//                Toast.makeText(getApplicationContext(), "再按一次退出",
+//                        Toast.LENGTH_SHORT).show();
+                ToastUtil.customToast(getApplicationContext(), "再按一次退出");
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

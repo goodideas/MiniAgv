@@ -6,7 +6,28 @@ package com.example.administrator.miniagv.entity;
  */
 public class AgvBean {
 
-    String gavId;
+    private String gavId;
+    private String gavMac;
+    private String gavIp;
+
+
+
+    public String getGavIp() {
+        return gavIp;
+    }
+
+    public void setGavIp(String gavIp) {
+        this.gavIp = gavIp;
+    }
+
+    public String getGavMac() {
+        return gavMac;
+    }
+
+    public void setGavMac(String gavMac) {
+        this.gavMac = gavMac;
+    }
+
     public String getGavId() {
         return gavId;
     }

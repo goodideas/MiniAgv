@@ -133,9 +133,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginRight="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/tv_auto_bg"
+                android:background="@drawable/tv_auto_left_bg"
                 android:gravity="center"
                 android:maxEms="4"
                 android:maxLines="2"
@@ -146,8 +146,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
                 android:layout_weight="1"
 
                 android:background="@drawable/tv_auto_bg"
@@ -159,11 +159,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
+                android:layout_marginLeft="0dp"
                 android:layout_marginRight="4dp"
                 android:layout_weight="1"
 
-                android:background="@drawable/tv_auto_bg"
+                android:background="@drawable/tv_auto_right_bg"
                 android:gravity="center"
                 android:maxEms="4"
                 android:maxLines="2"
@@ -179,7 +179,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginRight="0dp"
                 android:layout_weight="1"
                 android:background="#19d435"
                 android:gravity="center"
@@ -192,8 +192,8 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
                 android:layout_weight="1"
                 android:background="#19d435"
                 android:gravity="center"
@@ -204,7 +204,7 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
+                android:layout_marginLeft="0dp"
                 android:layout_marginRight="4dp"
                 android:layout_weight="1"
                 android:background="#19d435"
@@ -221,13 +221,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginRight="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/tv_auto_bg2"
+                android:background="@drawable/tv_auto_no_corner_bg"
                 android:gravity="center"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
-                android:text="速度" />
+                android:text="36" />
 
 
 
@@ -235,27 +235,27 @@
                 android:id="@+id/tvDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
                 android:layout_weight="1"
-                android:background="@drawable/tv_auto_bg2"
+                android:background="@drawable/tv_auto_no_corner_bg"
                 android:gravity="center"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
-                android:text="距离" />
+                android:text="20" />
 
             <TextView
                 android:id="@+id/tvRightWheelSpeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
+                android:layout_marginLeft="0dp"
                 android:layout_marginRight="4dp"
                 android:layout_weight="1"
-                android:background="@drawable/tv_auto_bg2"
+                android:background="@drawable/tv_auto_no_corner_bg"
                 android:gravity="center"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
-                android:text="速度"
+                android:text="36"
 
                 />
 
@@ -266,8 +266,24 @@
 
 
 
+            <!--<Button-->
+                <!--android:id="@+id/btnLeftWheelSpeed"-->
+                <!--style="?android:attr/buttonBarButtonStyle"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="4dp"-->
+                <!--android:layout_marginLeft="4dp"-->
+                <!--android:layout_marginRight="4dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/btn_auto_bg"-->
+                <!--android:gravity="center"-->
+                <!--android:text="获取左轮速度"-->
+                <!--android:textColor="#FFFFFF" />-->
+
+
+
             <Button
-                android:id="@+id/btnLeftWheelSpeed"
+                android:id="@+id/btnGetAgvData"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -277,40 +293,24 @@
                 android:layout_weight="1"
                 android:background="@drawable/btn_auto_bg"
                 android:gravity="center"
-                android:text="获取左轮速度"
-                android:textColor="#FFFFFF" />
-
-
-
-            <Button
-                android:id="@+id/btnDistance"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/btn_auto_bg"
-                android:gravity="center"
-                android:text="获取距离"
+                android:text="获取AGV信息"
                 android:textColor="#FFFFFF"
 
                 />
 
-            <Button
-                android:id="@+id/btnRightWheelSpeed"
-                style="?android:attr/buttonBarButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_weight="1"
-                android:background="@drawable/btn_auto_bg"
-                android:gravity="center"
-                android:text="获取右轮速度"
-                android:textColor="#FFFFFF" />
+            <!--<Button-->
+                <!--android:id="@+id/btnRightWheelSpeed"-->
+                <!--style="?android:attr/buttonBarButtonStyle"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="4dp"-->
+                <!--android:layout_marginLeft="4dp"-->
+                <!--android:layout_marginRight="4dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/btn_auto_bg"-->
+                <!--android:gravity="center"-->
+                <!--android:text="获取右轮速度"-->
+                <!--android:textColor="#FFFFFF" />-->
 
         </TableRow>
 
