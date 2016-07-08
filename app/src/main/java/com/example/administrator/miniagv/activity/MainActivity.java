@@ -22,6 +22,7 @@ import android.widget.ListView;
 import com.example.administrator.miniagv.R;
 import com.example.administrator.miniagv.entity.AgvBean;
 import com.example.administrator.miniagv.utils.AgvAdapter;
+import com.example.administrator.miniagv.utils.Constant;
 import com.example.administrator.miniagv.utils.OnReceiveListen;
 import com.example.administrator.miniagv.utils.SingleUdp;
 import com.example.administrator.miniagv.utils.ToastUtil;
@@ -121,17 +122,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-        singleUdp = SingleUdp.getUdpInstance();
-        singleUdp.setUdpIp(IP);
-        singleUdp.setUdpRemotePort(PORT);
-        singleUdp.start();
-        singleUdp.setOnReceiveListen(new OnReceiveListen() {
-            @Override
-            public void onReceiveData(byte[] data,int len) {
-                String mString  = Util.bytes2HexString(data,len);
-                Log.e(TAG,"data="+mString+" "+Util.checkData(mString));
-            }
-        });
+//        singleUdp = SingleUdp.getUdpInstance();
+//        singleUdp.setUdpIp(IP);
+//        singleUdp.setUdpRemotePort(PORT);
+//        singleUdp.start();
+//        singleUdp.setOnReceiveListen(new OnReceiveListen() {
+//            @Override
+//            public void onReceiveData(byte[] data,int len) {
+//                String mString  = Util.bytes2HexString(data,len);
+//                Log.e(TAG,"data="+mString+" "+Util.checkData(mString));
+//            }
+//        });
 
 
     }
@@ -160,24 +161,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(selected == -1){
                     ToastUtil.customToast(this,"没有选择！！！");
                 }else{
-                    ToastUtil.customToast(this,"选择了"+String.valueOf(selected));
+                    ToastUtil.customToast(this, "选择了" + String.valueOf(selected));
                     agvAdapter.setSelected(selected, false);
                     agvAdapter.notifyDataSetChanged();
+
+                    Intent intent = new Intent();
+                    intent.setClass(MainActivity.this,UnlockAgvActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constant.KEY_MAIN_TO_UNLOCK,(AgvBean)agvAdapter.getItem(selected));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                     selected = -1;
                     isSelect = false;
-                    startActivity(new Intent(MainActivity.this, UnlockAgvActivity.class));
                 }
 
                 break;
             case R.id.btnSearchAgv:
-//                AgvBean agvBean = new AgvBean();
-//                agvBean.setGavId(String.valueOf(c++));
-//                list.add(agvBean);
-//                agvAdapter.notifyDataSetChanged();
-//                lvAgv.smoothScrollToPosition(list.size());
-//                Log.e(TAG, "listSize=" + list.size() + " c=" + c);
+                AgvBean agvBean = new AgvBean();
+                agvBean.setGavId(String.valueOf(c++));
+                list.add(agvBean);
+                agvAdapter.notifyDataSetChanged();
+                lvAgv.smoothScrollToPosition(list.size());
+                Log.e(TAG, "listSize=" + list.size() + " c=" + c);
 
-                singleUdp.send("123456789".getBytes());
+//                singleUdp.send("123456789".getBytes());
 
                 // TODO: 2016/7/8 发送数据，等待进度框，AgvBean->数据库。显示list 
                 

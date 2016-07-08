@@ -1,5 +1,6 @@
 package com.example.administrator.miniagv.activity;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.view.MenuItem;
 import android.widget.SeekBar;
 
 import com.example.administrator.miniagv.R;
+import com.example.administrator.miniagv.entity.AgvBean;
+import com.example.administrator.miniagv.utils.Constant;
 import com.example.administrator.miniagv.utils.ToastUtil;
 import com.example.administrator.miniagv.views.SimpleSpeedSeekBarAdapter;
 import com.example.administrator.miniagv.views.SpeedSeekBar;
@@ -37,6 +40,11 @@ public class ManualModeActivity extends AppCompatActivity {
         seekBarLeft = (SpeedSeekBar)findViewById(R.id.speedSeekBarLeft);
         seekBarRight = (SpeedSeekBar)findViewById(R.id.speedSeekBarRight);
         speedSeekBarCenter = (SpeedSeekBar)findViewById(R.id.speedSeekBarCenter);
+
+        Intent intent = this.getIntent();
+        AgvBean agvBean =(AgvBean)intent.getSerializableExtra(Constant.KEY_MAIN_TO_UNLOCK);
+        Log.e(TAG, "agvBeanId = " + agvBean.getGavId());
+
         speedSeekBarCenter.setAdapter(new SimpleSpeedSeekBarAdapter(resources, new int[]{
                 R.drawable.btn_star5_selector,
                 R.drawable.btn_star4_selector,

@@ -1,10 +1,12 @@
 package com.example.administrator.miniagv.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator
  * on 2016/6/29.
  */
-public class AgvBean {
+public class AgvBean implements Serializable{
 
     private String gavId;
     private String gavMac;

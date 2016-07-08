@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.example.administrator.miniagv.R;
+import com.example.administrator.miniagv.entity.AgvBean;
+import com.example.administrator.miniagv.utils.Constant;
 import com.example.administrator.miniagv.utils.Util;
 
 public class FunctionMenuActivity extends AppCompatActivity implements View.OnClickListener {
@@ -20,6 +22,9 @@ public class FunctionMenuActivity extends AppCompatActivity implements View.OnCl
     private Button btnRFIDProgrammed;
     private Button btnAutoMode;
     private Button btnExtend;
+    private AgvBean agvBean;
+    private Intent mIntent = new Intent();
+    private Bundle mBundle = new Bundle();
 
 
     @Override
@@ -53,6 +58,11 @@ public class FunctionMenuActivity extends AppCompatActivity implements View.OnCl
         }
 
 
+        Intent intent = this.getIntent();
+        agvBean =(AgvBean)intent.getSerializableExtra(Constant.KEY_MAIN_TO_UNLOCK);
+        Log.e(TAG,"agvBeanId = "+agvBean.getGavId());
+        mBundle.putSerializable(Constant.KEY_MAIN_TO_UNLOCK, agvBean);
+
 
         btnManualMode.setOnClickListener(this);
         btnRFIDProgrammed.setOnClickListener(this);
@@ -72,18 +82,31 @@ public class FunctionMenuActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
             case R.id.btnAutoMode:
-                startActivity(new Intent(FunctionMenuActivity.this, AutoModeActivity.class));
+
+                mIntent.setClass(FunctionMenuActivity.this,AutoModeActivity.class);
+                mIntent.putExtras(mBundle);
+                startActivity(mIntent);
                 break;
             case R.id.btnRFIDProgrammed:
-                startActivity(new Intent(FunctionMenuActivity.this, ProgrammedModeActivity.class));
+
+                mIntent.setClass(FunctionMenuActivity.this,ProgrammedModeActivity.class);
+                mIntent.putExtras(mBundle);
+                startActivity(mIntent);
                 break;
             case R.id.btnManualMode:
-                startActivity(new Intent(FunctionMenuActivity.this, ManualModeActivity.class));
+
+                mIntent.setClass(FunctionMenuActivity.this, ManualModeActivity.class);
+                mIntent.putExtras(mBundle);
+                startActivity(mIntent);
                 break;
             case R.id.btnExtend:
-                startActivity(new Intent(FunctionMenuActivity.this, ExtendActivity.class));
+
+                mIntent.setClass(FunctionMenuActivity.this, ExtendActivity.class);
+                mIntent.putExtras(mBundle);
+                startActivity(mIntent);
                 break;
         }
     }

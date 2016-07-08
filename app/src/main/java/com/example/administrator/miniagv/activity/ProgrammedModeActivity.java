@@ -3,6 +3,7 @@ package com.example.administrator.miniagv.activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +21,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.administrator.miniagv.R;
+import com.example.administrator.miniagv.entity.AgvBean;
+import com.example.administrator.miniagv.utils.Constant;
 import com.example.administrator.miniagv.utils.ToastUtil;
 import com.example.administrator.miniagv.utils.Util;
 import com.example.administrator.miniagv.views.ProgrammedItem;
@@ -76,6 +79,11 @@ public class ProgrammedModeActivity extends AppCompatActivity {
         if(programmedItemList.size() == 0){
             llProgrammedItem.addView(emptyView,params);
         }
+
+        Intent intent = this.getIntent();
+        AgvBean agvBean =(AgvBean)intent.getSerializableExtra(Constant.KEY_MAIN_TO_UNLOCK);
+        Log.e(TAG, "agvBeanId = " + agvBean.getGavId());
+
 
 
         btnAddProgrammedItem.setOnClickListener(new View.OnClickListener() {

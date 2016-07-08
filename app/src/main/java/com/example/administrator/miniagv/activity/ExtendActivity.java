@@ -1,19 +1,24 @@
 package com.example.administrator.miniagv.activity;
 
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.administrator.miniagv.R;
+import com.example.administrator.miniagv.entity.AgvBean;
+import com.example.administrator.miniagv.utils.Constant;
 import com.example.administrator.miniagv.views.ColorPicker;
 
 public class ExtendActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
+    private static final String TAG = "ExtendActivity";
     private ColorPicker colorPicker;
     private EditText etR, etG, etB;
     private TextView tvColorTime, tvBuzzerHz, tvBuzzerTime;
@@ -43,6 +48,11 @@ public class ExtendActivity extends AppCompatActivity implements SeekBar.OnSeekB
         seekBarColorTime = (android.support.v7.widget.AppCompatSeekBar) findViewById(R.id.seekBarColorTime);
         seekBarBuzzerHz = (android.support.v7.widget.AppCompatSeekBar) findViewById(R.id.seekBarBuzzerHz);
         seekBarBuzzerTime = (android.support.v7.widget.AppCompatSeekBar) findViewById(R.id.seekBarBuzzerTime);
+
+
+        Intent intent = this.getIntent();
+        AgvBean agvBean =(AgvBean)intent.getSerializableExtra(Constant.KEY_MAIN_TO_UNLOCK);
+        Log.e(TAG, "agvBeanId = " + agvBean.getGavId());
 
         seekBarColorTime.setOnSeekBarChangeListener(this);
         seekBarBuzzerHz.setOnSeekBarChangeListener(this);

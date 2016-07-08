@@ -3,15 +3,20 @@ package com.example.administrator.miniagv.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import com.example.administrator.miniagv.R;
+import com.example.administrator.miniagv.entity.AgvBean;
+import com.example.administrator.miniagv.utils.Constant;
 
 public class UnlockAgvActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private static final String TAG = "UnlockAgvActivity";
     private Button btnUnlockAgv;
+    private AgvBean agvBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,9 @@ public class UnlockAgvActivity extends AppCompatActivity implements View.OnClick
         }
 
         btnUnlockAgv = (Button)findViewById(R.id.btnUnlockAgv);
+        Intent intent = this.getIntent();
+        agvBean =(AgvBean)intent.getSerializableExtra(Constant.KEY_MAIN_TO_UNLOCK);
+        Log.e(TAG,"agvBeanId = "+agvBean.getGavId());
 
         if (btnUnlockAgv != null) {
             btnUnlockAgv.setOnClickListener(this);
@@ -48,7 +56,12 @@ public class UnlockAgvActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnUnlockAgv:
-                startActivity(new Intent(UnlockAgvActivity.this,FunctionMenuActivity.class));
+                Intent intent = new Intent();
+                intent.setClass(UnlockAgvActivity.this,FunctionMenuActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constant.KEY_MAIN_TO_UNLOCK,agvBean);
+                intent.putExtras(bundle);
+                startActivity(intent);
                 break;
         }
     }
