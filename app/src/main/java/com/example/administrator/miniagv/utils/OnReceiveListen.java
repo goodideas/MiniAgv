@@ -5,6 +5,6 @@ package com.example.administrator.miniagv.utils;
  * on 2016/7/5.
  */
 public interface OnReceiveListen {
-    void onReceiveData(byte[] data);
+    void onReceiveData(byte[] data,int len);
 }
 

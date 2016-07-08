@@ -2,6 +2,7 @@ package com.example.administrator.miniagv.activity;
 
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -18,12 +19,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
-
 import com.example.administrator.miniagv.R;
 import com.example.administrator.miniagv.entity.AgvBean;
 import com.example.administrator.miniagv.utils.AgvAdapter;
+import com.example.administrator.miniagv.utils.OnReceiveListen;
+import com.example.administrator.miniagv.utils.SingleUdp;
 import com.example.administrator.miniagv.utils.ToastUtil;
+import com.example.administrator.miniagv.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
+    private static final String IP = "192.168.0.119";
+    private static final int PORT = 9987;
     private Button btnConnectAgv;
     private Button btnSearchAgv;
     private ListView lvAgv;
@@ -47,23 +51,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private LinearLayout.LayoutParams params = new
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
+    private SingleUdp singleUdp;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        init();
 
-        toolbar = (Toolbar)findViewById(R.id.toolBar);
-        btnConnectAgv = (Button) findViewById(R.id.btnConnectAgv);
-        btnSearchAgv = (Button) findViewById(R.id.btnSearchAgv);
-        lvAgv = (ListView) findViewById(R.id.lvAgv);
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-
-        toolbar.setTitle(R.string.app_name);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.WhiteColor));
-        setSupportActionBar(toolbar);
-        if(getSupportActionBar()!=null){
-            getSupportActionBar().setHomeButtonEnabled(true);
-        }
 
         btnConnectAgv.setOnClickListener(this);
         btnSearchAgv.setOnClickListener(this);
@@ -74,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         params.gravity = Gravity.CENTER;
-                ((ViewGroup) lvAgv.getParent()).addView(emptyView,params);
+                ((ViewGroup) lvAgv.getParent()).addView(emptyView, params);
         lvAgv.setEmptyView(emptyView);
 
         lvAgv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -126,6 +121,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
+        singleUdp = SingleUdp.getUdpInstance();
+        singleUdp.setUdpIp(IP);
+        singleUdp.setUdpRemotePort(PORT);
+        singleUdp.start();
+        singleUdp.setOnReceiveListen(new OnReceiveListen() {
+            @Override
+            public void onReceiveData(byte[] data,int len) {
+                String mString  = Util.bytes2HexString(data,len);
+                Log.e(TAG,"data="+mString+" "+Util.checkData(mString));
+            }
+        });
+
+
+    }
+
+    private void init() {
+        setContentView(R.layout.activity_main);
+
+        toolbar = (Toolbar)findViewById(R.id.toolBar);
+        btnConnectAgv = (Button) findViewById(R.id.btnConnectAgv);
+        btnSearchAgv = (Button) findViewById(R.id.btnSearchAgv);
+        lvAgv = (ListView) findViewById(R.id.lvAgv);
+        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
+
+        toolbar.setTitle(R.string.app_name);
+        toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
+        setSupportActionBar(toolbar);
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
     }
 
     @Override
@@ -145,12 +170,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.btnSearchAgv:
-                AgvBean agvBean = new AgvBean();
-                agvBean.setGavId(String.valueOf(c++));
-                list.add(agvBean);
-                agvAdapter.notifyDataSetChanged();
-                lvAgv.smoothScrollToPosition(list.size());
-                Log.e(TAG, "listSize=" + list.size() + " c=" + c);
+//                AgvBean agvBean = new AgvBean();
+//                agvBean.setGavId(String.valueOf(c++));
+//                list.add(agvBean);
+//                agvAdapter.notifyDataSetChanged();
+//                lvAgv.smoothScrollToPosition(list.size());
+//                Log.e(TAG, "listSize=" + list.size() + " c=" + c);
+
+                singleUdp.send("123456789".getBytes());
+
+                // TODO: 2016/7/8 发送数据，等待进度框，AgvBean->数据库。显示list 
+                
                 break;
         }
     }
@@ -175,4 +205,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onKeyDown(keyCode, event);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(singleUdp!=null){
+            singleUdp.stop();
+        }
+    }
 }

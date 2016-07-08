@@ -1,5 +1,7 @@
 package com.example.administrator.miniagv.utils;
 
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import java.io.IOException;
@@ -19,6 +21,7 @@ public class SingleUdp {
     private static final String TAG = "SingleUdp";
     public static final int ONE_KB = 1024;
     public static final int HALF_KB = 512;
+    public static final int RECEIVED_DATA = 0x123;
     private String ipAddress;
     private int udpLocalPort = -1;
     private int udpRemotePort = -1;
@@ -26,11 +29,11 @@ public class SingleUdp {
     private DatagramPacket udpReceivePacket;
     private DatagramPacket udpSendPacket;
     private InetAddress inetAddress;
-    private byte[] udpReceiveBytes;
+    private static byte[] udpReceiveBytes;
     private OnReceiveListen onReceiveListen;//接收监听
     private Thread udpReceiveThread;
     private static SingleUdp UdpInstance;
-
+    private Myhadler myhadler;
     //私有构造器
     private SingleUdp() {
         init();
@@ -68,6 +71,7 @@ public class SingleUdp {
     private void init() {
         udpReceiveBytes = new byte[HALF_KB];
         udpReceivePacket = new DatagramPacket(udpReceiveBytes, HALF_KB);
+        myhadler = new Myhadler();
     }
 
     //启动udp
@@ -128,13 +132,14 @@ public class SingleUdp {
                 while (!udpReceiveThread.isInterrupted()) {
                     try {
                         //初始化赋值 (byte)0x00
-                        Arrays.fill(udpReceiveBytes, (byte) 0x00);
+
                         //会阻塞
                         udpSocket.receive(udpReceivePacket);
                         int len = udpReceivePacket.getLength();
                         if (len > 0) {
                             if (onReceiveListen != null) {
-                                onReceiveListen.onReceiveData(udpReceiveBytes);
+                                onReceiveListen.onReceiveData(udpReceiveBytes,len);
+                                myhadler.sendEmptyMessage(RECEIVED_DATA);
                             }
                         }
                     } catch (IOException e) {
@@ -146,6 +151,16 @@ public class SingleUdp {
         };
         udpReceiveThread.start();
 
+    }
+
+
+    static class Myhadler extends Handler{
+        @Override
+        public void handleMessage(Message msg) {
+            if(msg.what == RECEIVED_DATA){
+                Arrays.fill(udpReceiveBytes, (byte) 0x00);
+            }
+        }
     }
 
 
