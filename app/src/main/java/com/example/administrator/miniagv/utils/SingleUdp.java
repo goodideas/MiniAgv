@@ -33,7 +33,7 @@ public class SingleUdp {
     private OnReceiveListen onReceiveListen;//接收监听
     private Thread udpReceiveThread;
     private static SingleUdp UdpInstance;
-    private Myhadler myhadler;
+    private Myhandler myhandler;
     //私有构造器
     private SingleUdp() {
         init();
@@ -71,7 +71,7 @@ public class SingleUdp {
     private void init() {
         udpReceiveBytes = new byte[HALF_KB];
         udpReceivePacket = new DatagramPacket(udpReceiveBytes, HALF_KB);
-        myhadler = new Myhadler();
+        myhandler = new Myhandler();
     }
 
     //启动udp
@@ -138,8 +138,8 @@ public class SingleUdp {
                         int len = udpReceivePacket.getLength();
                         if (len > 0) {
                             if (onReceiveListen != null) {
-                                onReceiveListen.onReceiveData(udpReceiveBytes,len);
-                                myhadler.sendEmptyMessage(RECEIVED_DATA);
+                                onReceiveListen.onReceiveData(udpReceiveBytes,len,null);
+                                myhandler.sendEmptyMessage(RECEIVED_DATA);
                             }
                         }
                     } catch (IOException e) {
@@ -154,7 +154,7 @@ public class SingleUdp {
     }
 
 
-    static class Myhadler extends Handler{
+    static class Myhandler extends Handler{
         @Override
         public void handleMessage(Message msg) {
             if(msg.what == RECEIVED_DATA){

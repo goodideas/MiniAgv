@@ -2,6 +2,8 @@ package com.example.administrator.miniagv.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -18,6 +20,7 @@ public class ToastUtil {
     private static Toast customToast; //自定义Toast实例
     private static View layout;//自定义布局
     private static TextView textView;//自定义显示文本
+    private static Typeface typeface;
     /**
      * 自定义Toast
      * @param context 上下文
@@ -27,7 +30,13 @@ public class ToastUtil {
     public static void customToast(Context context,CharSequence showInfo){
         if(layout==null) layout = LayoutInflater.from(context).inflate(R.layout.layout_custom_toast,null);
 
-        if(textView==null) textView = (TextView)layout.findViewById(R.id.tvShowInfo);
+        if(typeface==null)
+        typeface = Typeface.createFromAsset(context.getAssets(),"MNJLX.TTF");
+
+        if(textView==null){
+            textView = (TextView)layout.findViewById(R.id.tvShowInfo);
+            textView.setTypeface(typeface);
+        }
 
         if(toast!=null) toast.cancel();
 

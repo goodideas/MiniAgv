@@ -22,11 +22,13 @@ import android.widget.ListView;
 import com.example.administrator.miniagv.R;
 import com.example.administrator.miniagv.entity.AgvBean;
 import com.example.administrator.miniagv.utils.AgvAdapter;
+import com.example.administrator.miniagv.utils.BroadcastUdp;
 import com.example.administrator.miniagv.utils.Constant;
 import com.example.administrator.miniagv.utils.OnReceiveListen;
 import com.example.administrator.miniagv.utils.SingleUdp;
 import com.example.administrator.miniagv.utils.ToastUtil;
 import com.example.administrator.miniagv.utils.Util;
+import com.example.administrator.miniagv.utils.WaitDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
     private SingleUdp singleUdp;
+    private BroadcastUdp broadcastUdp;
 
 
     @Override
@@ -177,16 +180,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.btnSearchAgv:
-                AgvBean agvBean = new AgvBean();
-                agvBean.setGavId(String.valueOf(c++));
-                list.add(agvBean);
-                agvAdapter.notifyDataSetChanged();
-                lvAgv.smoothScrollToPosition(list.size());
-                Log.e(TAG, "listSize=" + list.size() + " c=" + c);
+//                AgvBean agvBean = new AgvBean();
+//                agvBean.setGavId(String.valueOf(c++));
+//                list.add(agvBean);
+//                agvAdapter.notifyDataSetChanged();
+//                lvAgv.smoothScrollToPosition(list.size());
+//                Log.e(TAG, "listSize=" + list.size() + " c=" + c);
 
 //                singleUdp.send("123456789".getBytes());
 
-                // TODO: 2016/7/8 发送数据，等待进度框，AgvBean->数据库。显示list 
+                if(broadcastUdp==null){
+                    broadcastUdp = new BroadcastUdp();
+                }
+                broadcastUdp.stop();
+                broadcastUdp.init();
+                broadcastUdp.send("123".getBytes());
+                broadcastUdp.setReceiveListen(new OnReceiveListen() {
+                    @Override
+                    public void onReceiveData(byte[] data, int len,String remoteIp) {
+                        String da = Util.bytes2HexString(data, len);
+                        // TODO: 2016/7/8 发送数据，等待进度框，AgvBean->数据库。显示list
+                        Log.e(TAG, "da = " + da);
+                    }
+                });
+                WaitDialog.immediatelyDismiss();
+                WaitDialog.showDialog(MainActivity.this,"等待",5000,broadcastUdp);
                 
                 break;
         }
@@ -200,8 +218,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
                 mDrawerLayout.closeDrawer(GravityCompat.START);
             } else if (System.currentTimeMillis() - exitTime > 2000) {
-//                Toast.makeText(getApplicationContext(), "再按一次退出",
-//                        Toast.LENGTH_SHORT).show();
                 ToastUtil.customToast(getApplicationContext(), "再按一次退出");
                 exitTime = System.currentTimeMillis();
             } else {
