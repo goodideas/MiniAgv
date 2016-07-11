@@ -21,7 +21,7 @@ public class BroadcastUdp {
 
     private static final String TAG = "BroadcastUdp";
     private static final String BROADCAST_IP = "255.255.255.255";
-    private static final int BROADCAST_PORT = 9987;
+    private static final int BROADCAST_PORT = 5678;
     private static final int HANDLER_MESSAGE = 0x123;
     private DatagramSocket udpSocket;
     private DatagramPacket udpSendPacket;

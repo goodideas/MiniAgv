@@ -31,6 +31,7 @@ public class ManualModeActivity extends AppCompatActivity{
     private SingleUdp singleUdp;
     private byte[] sendData;
     private byte leftWheel = 0x00,rightWheel = 0x00;
+    private boolean flag = true;
 
 
     @Override
@@ -94,22 +95,28 @@ public class ManualModeActivity extends AppCompatActivity{
         speedSeekBarCenter.setListener(new SpeedSeekBarListener() {
             @Override
             public void onPositionSelected(int position) {
+                flag = false;
                 seekBarLeft.setPosition(position);
                 seekBarRight.setPosition(position);
-
+                flag = true;
                 //14 15 16 字节分别是 左轮速度、右轮速度、校验位
-//                sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED.replace(" ",""));
-//                sendData[14] =  Byte.parseByte((5-position)+"");
-//                sendData[15] =  Byte.parseByte((5-position)+"");
-//                String hexData = Util.bytes2HexString(new byte[]{sendData[14], sendData[15]},2);
-//                sendData[16] = Util.CheckCode(hexData);
-//                singleUdp.send(sendData);
+                sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED.replace(" ",""));
+                sendData[14] =  Byte.parseByte((5 - position) + "");
+                sendData[15] =  Byte.parseByte((5 - position) + "");
+                String hexData = Util.bytes2HexString(new byte[]{sendData[14], sendData[15]},2);
+                sendData[16] = Util.CheckCode(hexData);
+                singleUdp.send(sendData);
             }
         });
         seekBarLeft.setListener(new SpeedSeekBarListener() {
             @Override
             public void onPositionSelected(int position) {
                 leftWheel = Byte.parseByte(""+(5-position));
+                if(flag){
+
+
+
+
 
                 sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED.replace(" ",""));
                 sendData[14] =  leftWheel;
@@ -119,6 +126,7 @@ public class ManualModeActivity extends AppCompatActivity{
                 singleUdp.send(sendData);
 
                 ToastUtil.customToast(ManualModeActivity.this,"seekBarLeft position="+(5-position));
+                }
             }
         });
 
@@ -126,6 +134,10 @@ public class ManualModeActivity extends AppCompatActivity{
             @Override
             public void onPositionSelected(int position) {
                 rightWheel = Byte.parseByte(""+(5-position));
+                if(flag){
+
+
+
                 sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED.replace(" ",""));
                 sendData[14] =  leftWheel;
                 sendData[15] =  rightWheel;
@@ -133,7 +145,7 @@ public class ManualModeActivity extends AppCompatActivity{
                 sendData[16] = Util.CheckCode(hexData);
                 singleUdp.send(sendData);
                 ToastUtil.customToast(ManualModeActivity.this,"seekBarRight position="+(5-position));
-
+                }
             }
         });
 
