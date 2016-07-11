@@ -47,7 +47,6 @@ public class Util {
      * 16进制字符串转byte数组
      */
     public static byte[] HexString2Bytes(String hexString) {
-
         int stringLength = hexString.length();
         byte[] data = new byte[(stringLength / 2)];
         for (int i = 0, j = 0; i < data.length; i++, j = j + 2) {
@@ -72,12 +71,12 @@ public class Util {
     }
 
     //数据校验码
-    public static byte CheckCode(String data) {
+    public static byte CheckCode(String hexData) {
         byte reData;
         int sum = 0;
-        int dataLength = data.length();
+        int dataLength = hexData.length();
         for (int i = 0; i < (dataLength); i = i + 2) {
-            sum = sum + Integer.parseInt(data.substring(i, 2 + i), 16);
+            sum = sum + Integer.parseInt(hexData.substring(i, 2 + i), 16);
         }
         String temp = "0" + Integer.toHexString(sum);
         reData = (byte) Integer.parseInt(temp.substring(temp.length() - 2, temp.length()).toUpperCase(), 16);
@@ -96,7 +95,11 @@ public class Util {
     }
 
 
-    //数据验证
+    /**
+     * 检验数据
+     * @param data 需要检验的数据
+     * @return 验证的结果
+     */
     public static boolean checkData(String data) {
         if (data.length() >= 4) {
             // 数据头ffaa

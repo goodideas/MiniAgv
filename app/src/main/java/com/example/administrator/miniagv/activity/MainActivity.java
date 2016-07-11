@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
 import com.example.administrator.miniagv.R;
 import com.example.administrator.miniagv.entity.AgvBean;
 import com.example.administrator.miniagv.utils.AgvAdapter;
@@ -26,6 +27,7 @@ import com.example.administrator.miniagv.utils.BroadcastUdp;
 import com.example.administrator.miniagv.utils.Constant;
 import com.example.administrator.miniagv.utils.OnReceiveListen;
 import com.example.administrator.miniagv.utils.SingleUdp;
+import com.example.administrator.miniagv.utils.SpHelper;
 import com.example.administrator.miniagv.utils.ToastUtil;
 import com.example.administrator.miniagv.utils.Util;
 import com.example.administrator.miniagv.utils.WaitDialog;
@@ -36,14 +38,11 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivity";
-    private static final String IP = "192.168.0.119";
-    private static final int PORT = 9987;
     private Button btnConnectAgv;
     private Button btnSearchAgv;
     private ListView lvAgv;
     private List<AgvBean> list = new ArrayList<>();
     private AgvAdapter agvAdapter;
-    private int c = 0;
     private int lastSelect = -1;
     private boolean isSelect = false;
     private int selected = -1;
@@ -56,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private SingleUdp singleUdp;
     private BroadcastUdp broadcastUdp;
+    private SpHelper spHelper;
 
 
     @Override
@@ -69,11 +69,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         agvAdapter = new AgvAdapter(this, list);
         lvAgv.setAdapter(agvAdapter);
 
-        View emptyView = LayoutInflater.from(this).inflate(R.layout.programmed_list_empty_layout,null );
+        View emptyView = LayoutInflater.from(this).inflate(R.layout.programmed_list_empty_layout, null);
 
 
         params.gravity = Gravity.CENTER;
-                ((ViewGroup) lvAgv.getParent()).addView(emptyView, params);
+        ((ViewGroup) lvAgv.getParent()).addView(emptyView, params);
         lvAgv.setEmptyView(emptyView);
 
         lvAgv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -107,8 +107,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-        mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this,mDrawerLayout,toolbar,
-                R.string.app_name,R.string.app_name){
+        mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar,
+                R.string.app_name, R.string.app_name) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -125,57 +125,71 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-//        singleUdp = SingleUdp.getUdpInstance();
-//        singleUdp.setUdpIp(IP);
-//        singleUdp.setUdpRemotePort(PORT);
-//        singleUdp.start();
-//        singleUdp.setOnReceiveListen(new OnReceiveListen() {
-//            @Override
-//            public void onReceiveData(byte[] data,int len) {
-//                String mString  = Util.bytes2HexString(data,len);
-//                Log.e(TAG,"data="+mString+" "+Util.checkData(mString));
-//            }
-//        });
-
 
     }
 
     private void init() {
         setContentView(R.layout.activity_main);
 
-        toolbar = (Toolbar)findViewById(R.id.toolBar);
+        toolbar = (Toolbar) findViewById(R.id.toolBar);
         btnConnectAgv = (Button) findViewById(R.id.btnConnectAgv);
         btnSearchAgv = (Button) findViewById(R.id.btnSearchAgv);
         lvAgv = (ListView) findViewById(R.id.lvAgv);
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
 
         toolbar.setTitle(R.string.app_name);
         toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
         setSupportActionBar(toolbar);
-        if(getSupportActionBar()!=null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setHomeButtonEnabled(true);
         }
+        spHelper = new SpHelper(MainActivity.this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnConnectAgv:
-                if(selected == -1){
-                    ToastUtil.customToast(this,"没有选择！！！");
-                }else{
+                if (selected == -1) {
+                    ToastUtil.customToast(this, "没有选择！！！");
+                } else {
                     ToastUtil.customToast(this, "选择了" + String.valueOf(selected));
                     agvAdapter.setSelected(selected, false);
                     agvAdapter.notifyDataSetChanged();
+                    final AgvBean agvBean = (AgvBean) agvAdapter.getItem(selected);
+                    spHelper.saveSpAgvId(agvBean.getGavId());
+                    spHelper.saveSpAgvIp(agvBean.getGavIp());
+                    spHelper.saveSpAgvMac(agvBean.getGavMac());
 
-                    Intent intent = new Intent();
-                    intent.setClass(MainActivity.this,UnlockAgvActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Constant.KEY_MAIN_TO_UNLOCK,(AgvBean)agvAdapter.getItem(selected));
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                    selected = -1;
-                    isSelect = false;
+                    singleUdp = SingleUdp.getUdpInstance();
+                    singleUdp.setUdpIp(agvBean.getGavIp());
+                    singleUdp.setUdpRemotePort(Constant.REMOTE_PORT);
+                    singleUdp.start();
+                    singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_SHAKE.replace(" ", "")));
+                    WaitDialog.showDialog(MainActivity.this,"正在连接",2000,null);
+                    singleUdp.setOnReceiveListen(new OnReceiveListen() {
+                        @Override
+                        public void onReceiveData(byte[] data, int len, String ip) {
+                            String mString = Util.bytes2HexString(data, len);
+                            if (Util.checkData(mString)) {
+                                String cmd = mString.substring(Constant.DATA_CMD_START, Constant.DATA_CMD_END);
+                                if (Constant.CMD_SHAKE_RESPOND.equalsIgnoreCase(cmd)) {
+                                    WaitDialog.immediatelyDismiss();
+                                    Intent intent = new Intent();
+                                    intent.setClass(MainActivity.this, UnlockAgvActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable(Constant.KEY_MAIN_TO_UNLOCK, agvBean);
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
+                                    selected = -1;
+                                    isSelect = false;
+                                }
+                            }
+
+                        }
+                    });
+
+
                 }
 
                 break;
@@ -189,24 +203,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //                singleUdp.send("123456789".getBytes());
 
-                if(broadcastUdp==null){
+                if (broadcastUdp == null) {
                     broadcastUdp = new BroadcastUdp();
                 }
+
                 broadcastUdp.stop();
                 broadcastUdp.init();
-                broadcastUdp.send("123".getBytes());
+                broadcastUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_SEARCH.replace(" ", "")));
                 broadcastUdp.setReceiveListen(new OnReceiveListen() {
                     @Override
-                    public void onReceiveData(byte[] data, int len,String remoteIp) {
+                    public void onReceiveData(byte[] data, int len, String remoteIp) {
                         String da = Util.bytes2HexString(data, len);
-                        // TODO: 2016/7/8 发送数据，等待进度框，AgvBean->数据库。显示list
                         Log.e(TAG, "da = " + da);
+                        analysisData(da, remoteIp);
                     }
                 });
                 WaitDialog.immediatelyDismiss();
-                WaitDialog.showDialog(MainActivity.this,"等待",5000,broadcastUdp);
-                
+                WaitDialog.showDialog(MainActivity.this, "正在搜索。。。", 5000, broadcastUdp);
+
                 break;
+        }
+    }
+
+    private void analysisData(String data, String ip) {
+        if (Util.checkData(data)) {
+            String cmd = data.substring(Constant.DATA_CMD_START, Constant.DATA_CMD_END);
+
+            if (Constant.CMD_SEARCH_RESPOND.equalsIgnoreCase(cmd)) {
+                String agvMac = data.substring(Constant.DATA_MAC_START, Constant.DATA_MAC_END);
+                int dataLength = Integer.parseInt(data.substring(Constant.DATA_CONTENT_LENGTH_START_0, Constant.DATA_CONTENT_LENGTH_END_0), 16) +
+                        Integer.parseInt(data.substring(Constant.DATA_CONTENT_LENGTH_START_1, Constant.DATA_CONTENT_LENGTH_END_1), 16) * 256;
+                String agvId = data.substring(Constant.DATA_CONTENT_START, Constant.DATA_CONTENT_END(dataLength));
+                final AgvBean agvBean = new AgvBean();
+                agvBean.setGavId(agvId);
+                agvBean.setGavIp(ip);
+                agvBean.setGavMac(agvMac);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        list.add(agvBean);
+                        agvAdapter.notifyDataSetChanged();
+                        lvAgv.smoothScrollToPosition(list.size());
+                    }
+                });
+
+            }
         }
     }
 
@@ -231,8 +272,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(singleUdp!=null){
-            singleUdp.stop();
-        }
     }
 }

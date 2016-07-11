@@ -102,9 +102,13 @@ public class SingleUdp {
 
     //发送
     public void send(byte[] data){
+
         if(udpSendPacket==null){
-            udpSendPacket = new DatagramPacket(
-                    data, data.length, inetAddress, udpRemotePort);
+            udpSendPacket = new DatagramPacket(data, data.length, inetAddress, udpRemotePort);
+
+        }else{
+            udpSendPacket.setData(data);
+            udpSendPacket.setLength(data.length);
         }
 
         new Thread() {

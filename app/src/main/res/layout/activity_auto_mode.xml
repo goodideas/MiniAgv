@@ -50,16 +50,6 @@
         android:gravity="center"
         >
 
-        <Button
-            android:id="@+id/btnStartTracking"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/btn_background"
-            android:text="开始循迹"
-            android:textColor="#FFFFFF" />
-
         <EditText
             android:id="@+id/etStartSpeed"
             android:layout_width="70dp"
@@ -73,6 +63,20 @@
             android:inputType="number"
             android:maxLength="2"
             android:maxLines="1" />
+
+        <Button
+            android:id="@+id/btnStartTracking"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/btn_background"
+            android:text="开始循迹"
+            android:textColor="#FFFFFF" />
+
+
 
         <Button
             android:id="@+id/btnStopTracking"
@@ -96,6 +100,7 @@
         >
 
         <EditText
+            android:inputType="number"
             android:id="@+id/etLoc"
             android:layout_width="70dp"
             android:layout_height="42dp"
@@ -107,14 +112,30 @@
             android:hint="位置"
             />
 
+        <!--agv模式-->
+        <!--动作内容：4个信息-->
+
         <Button
             android:id="@+id/btnLoc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:layout_marginTop="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
             android:background="@drawable/btn_background"
             android:text="确定"
+            android:textColor="#FFFFFF" />
+
+
+        <Button
+            android:id="@+id/btnStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/btn_background"
+            android:text="急停"
             android:textColor="#FFFFFF" />
 
     </LinearLayout>

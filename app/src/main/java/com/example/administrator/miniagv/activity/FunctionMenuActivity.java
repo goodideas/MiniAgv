@@ -63,7 +63,6 @@ public class FunctionMenuActivity extends AppCompatActivity implements View.OnCl
         Log.e(TAG,"agvBeanId = "+agvBean.getGavId());
         mBundle.putSerializable(Constant.KEY_MAIN_TO_UNLOCK, agvBean);
 
-
         btnManualMode.setOnClickListener(this);
         btnRFIDProgrammed.setOnClickListener(this);
         btnAutoMode.setOnClickListener(this);

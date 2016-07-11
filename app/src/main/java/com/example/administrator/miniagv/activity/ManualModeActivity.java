@@ -2,6 +2,7 @@ package com.example.administrator.miniagv.activity;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,19 +12,26 @@ import android.widget.SeekBar;
 import com.example.administrator.miniagv.R;
 import com.example.administrator.miniagv.entity.AgvBean;
 import com.example.administrator.miniagv.utils.Constant;
+import com.example.administrator.miniagv.utils.OnReceiveListen;
+import com.example.administrator.miniagv.utils.SingleUdp;
 import com.example.administrator.miniagv.utils.ToastUtil;
+import com.example.administrator.miniagv.utils.Util;
 import com.example.administrator.miniagv.views.SimpleSpeedSeekBarAdapter;
 import com.example.administrator.miniagv.views.SpeedSeekBar;
 import com.example.administrator.miniagv.views.SpeedSeekBarListener;
 import com.example.administrator.miniagv.views.VerticalSeekBar;
 
-public class ManualModeActivity extends AppCompatActivity {
+public class ManualModeActivity extends AppCompatActivity{
 
     private static final String TAG = "ManualModeActivity";
 
     private SpeedSeekBar seekBarLeft;
     private SpeedSeekBar seekBarRight;
     private SpeedSeekBar speedSeekBarCenter;
+    private SingleUdp singleUdp;
+    private byte[] sendData;
+    private byte leftWheel = 0x00,rightWheel = 0x00;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,14 @@ public class ManualModeActivity extends AppCompatActivity {
         Intent intent = this.getIntent();
         AgvBean agvBean =(AgvBean)intent.getSerializableExtra(Constant.KEY_MAIN_TO_UNLOCK);
         Log.e(TAG, "agvBeanId = " + agvBean.getGavId());
+
+        singleUdp = SingleUdp.getUdpInstance();
+        singleUdp.setOnReceiveListen(new OnReceiveListen() {
+            @Override
+            public void onReceiveData(byte[] data, int len, @Nullable String remoteIp) {
+
+            }
+        });
 
         speedSeekBarCenter.setAdapter(new SimpleSpeedSeekBarAdapter(resources, new int[]{
                 R.drawable.btn_star5_selector,
@@ -80,11 +96,28 @@ public class ManualModeActivity extends AppCompatActivity {
             public void onPositionSelected(int position) {
                 seekBarLeft.setPosition(position);
                 seekBarRight.setPosition(position);
+
+                //14 15 16 字节分别是 左轮速度、右轮速度、校验位
+//                sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED.replace(" ",""));
+//                sendData[14] =  Byte.parseByte((5-position)+"");
+//                sendData[15] =  Byte.parseByte((5-position)+"");
+//                String hexData = Util.bytes2HexString(new byte[]{sendData[14], sendData[15]},2);
+//                sendData[16] = Util.CheckCode(hexData);
+//                singleUdp.send(sendData);
             }
         });
         seekBarLeft.setListener(new SpeedSeekBarListener() {
             @Override
             public void onPositionSelected(int position) {
+                leftWheel = Byte.parseByte(""+(5-position));
+
+                sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED.replace(" ",""));
+                sendData[14] =  leftWheel;
+                sendData[15] =  rightWheel;
+                String hexData = Util.bytes2HexString(new byte[]{sendData[14], sendData[15]},2);
+                sendData[16] = Util.CheckCode(hexData);
+                singleUdp.send(sendData);
+
                 ToastUtil.customToast(ManualModeActivity.this,"seekBarLeft position="+(5-position));
             }
         });
@@ -92,6 +125,13 @@ public class ManualModeActivity extends AppCompatActivity {
         seekBarRight.setListener(new SpeedSeekBarListener() {
             @Override
             public void onPositionSelected(int position) {
+                rightWheel = Byte.parseByte(""+(5-position));
+                sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED.replace(" ",""));
+                sendData[14] =  leftWheel;
+                sendData[15] =  rightWheel;
+                String hexData = Util.bytes2HexString(new byte[]{sendData[14], sendData[15]},2);
+                sendData[16] = Util.CheckCode(hexData);
+                singleUdp.send(sendData);
                 ToastUtil.customToast(ManualModeActivity.this,"seekBarRight position="+(5-position));
 
             }
@@ -108,5 +148,6 @@ public class ManualModeActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 }
