@@ -12,31 +12,173 @@
         android:layout_height="wrap_content">
 
         <TextView
+            android:id="@+id/tvShowRFID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:text="RFID:" />
+
+        <TextView
+
             android:id="@+id/tvRFID"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:layout_marginRight="10dp"
-            android:text="RFID" />
-
-        <TextView
-
-            android:id="@+id/tvActionContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/tvRFID"
-            android:layout_toRightOf="@+id/tvRFID"
-            android:text="动作内容" />
-
+            android:layout_toEndOf="@+id/tvShowRFID"
+            android:layout_toRightOf="@+id/tvShowRFID"
+            android:text="FFAASSWWEERRFFDD" />
         <TextView
-            android:id="@+id/tvFaultId"
+            android:id="@+id/tvErrorStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:text="故障ID" />
+            android:text="距离过近" />
+        <TextView
+            android:id="@+id/tvFaultId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="错误状态:"
+            android:layout_toLeftOf="@id/tvErrorStatus"
+            android:layout_toStartOf="@id/tvErrorStatus"
+            />
+
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@id/rlAutoModeTop"
+        android:id="@+id/rlAutoModeTop2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvShowAgvMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:text="AGV模式:" />
+
+        <TextView
+
+            android:id="@+id/tvAgvMode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/tvShowAgvMode"
+            android:layout_toRightOf="@id/tvShowAgvMode"
+            android:text="循迹模式" />
+        <TextView
+            android:id="@+id/tvAgvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="前进" />
+        <TextView
+            android:id="@+id/tvShowAgvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AGV状态:"
+            android:layout_toLeftOf="@id/tvAgvStatus"
+            android:layout_toStartOf="@id/tvAgvStatus"
+            />
+
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@id/rlAutoModeTop2"
+        android:id="@+id/rlAutoModeTop3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvShowAutoRFID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:text="检测到RFID:" />
+
+        <TextView
+
+            android:id="@+id/tvAutoRFID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/tvShowAutoRFID"
+            android:layout_toRightOf="@id/tvShowAutoRFID"
+            android:text="AASSDDFFRREEWWQQ" />
+        <TextView
+            android:id="@+id/tvAutoLoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="0" />
+        <TextView
+            android:id="@+id/tvShowAutoLoc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="位置:"
+            android:layout_toLeftOf="@id/tvAutoLoc"
+            android:layout_toStartOf="@id/tvAutoLoc"
+            />
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@id/rlAutoModeTop3"
+        android:id="@+id/rlAutoModeTop4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvShowAutoAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginRight="4dp"
+            android:text="正在进行:" />
+
+        <TextView
+
+            android:id="@+id/tvAutoAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@id/tvShowAutoAction"
+            android:layout_toRightOf="@id/tvShowAutoAction"
+            android:text="前进" />
+        <TextView
+            android:id="@+id/tvAutoSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="0" />
+        <TextView
+            android:id="@+id/tvShowAutoSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="速度:"
+            android:layout_toLeftOf="@id/tvAutoSpeed"
+            android:layout_toStartOf="@id/tvAutoSpeed"
+            />
+
 
 
     </RelativeLayout>
@@ -50,19 +192,40 @@
         android:gravity="center"
         >
 
-        <EditText
-            android:id="@+id/etStartSpeed"
-            android:layout_width="70dp"
-            android:layout_height="42dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:layout_marginTop="4dp"
-            android:background="@drawable/edit_text_bg"
-            android:hint="速度"
-            android:inputType="number"
-            android:maxLength="2"
-            android:maxLines="1" />
+        <!--<EditText-->
+            <!--android:id="@+id/etStartSpeed"-->
+            <!--android:layout_width="70dp"-->
+            <!--android:layout_height="42dp"-->
+            <!--android:layout_marginBottom="4dp"-->
+            <!--android:layout_marginLeft="4dp"-->
+            <!--android:layout_marginRight="4dp"-->
+            <!--android:layout_marginTop="4dp"-->
+            <!--android:background="@drawable/edit_text_bg"-->
+            <!--android:hint="速度"-->
+            <!--android:inputType="number"-->
+            <!--android:maxLength="2"-->
+            <!--android:maxLines="1" />-->
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/radioGroup"
+            >
+
+            <RadioButton
+                android:id="@+id/radioButtonSpeed1"
+                android:text="速度1"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RadioButton
+                android:id="@+id/radioButtonSpeed2"
+                android:text="速度2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RadioGroup>
 
         <Button
             android:id="@+id/btnStartTracking"
@@ -100,14 +263,17 @@
         >
 
         <EditText
-            android:inputType="number"
-            android:id="@+id/etLoc"
+            android:inputType="phone"
+            android:id="@+id/etAutoLoc"
             android:layout_width="70dp"
             android:layout_height="42dp"
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:layout_marginTop="4dp"
+            android:maxLength="2"
+            android:maxEms="2"
+            android:maxLines="1"
             android:background="@drawable/edit_text_bg"
             android:hint="位置"
             />
@@ -242,7 +408,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
-                android:layout_marginRight="0dp"
+                android:layout_marginStart="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/tv_auto_no_corner_bg"
                 android:gravity="center"
@@ -269,7 +435,7 @@
                 android:id="@+id/tvRightWheelSpeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
+                android:layout_marginEnd="4dp"
                 android:layout_marginRight="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/tv_auto_no_corner_bg"

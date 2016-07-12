@@ -82,7 +82,9 @@ public class SingleUdp {
             if (udpLocalPort != -1) {
                 udpSocket = new DatagramSocket(udpLocalPort);
             } else {
-                udpSocket = new DatagramSocket();
+                udpSocket = udpSocket == null?new DatagramSocket():udpSocket;
+//                if(udpSocket==null)
+//                udpSocket = new DatagramSocket();
             }
         } catch (UnknownHostException | SocketException e) {
             e.printStackTrace();

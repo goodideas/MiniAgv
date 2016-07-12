@@ -15,6 +15,7 @@ import com.example.administrator.miniagv.utils.Constant;
 import com.example.administrator.miniagv.utils.OnReceiveListen;
 import com.example.administrator.miniagv.utils.SingleUdp;
 import com.example.administrator.miniagv.utils.Util;
+import com.example.administrator.miniagv.utils.WaitDialog;
 
 public class UnlockAgvActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -61,6 +62,7 @@ public class UnlockAgvActivity extends AppCompatActivity implements View.OnClick
         if(Util.checkData(data)){
             String cmd = data.substring(Constant.DATA_CMD_START,Constant.DATA_CMD_END);
             if(Constant.CMD_UNLOCK_RESPOND.equalsIgnoreCase(cmd)){
+                WaitDialog.immediatelyDismiss();
                 Intent intent = new Intent();
                 intent.setClass(UnlockAgvActivity.this,FunctionMenuActivity.class);
                 Bundle bundle = new Bundle();
@@ -86,6 +88,7 @@ public class UnlockAgvActivity extends AppCompatActivity implements View.OnClick
         switch (v.getId()){
             case R.id.btnUnlockAgv:
                 singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_UNLOCK.replace(" ","")));
+                WaitDialog.showDialog(UnlockAgvActivity.this, "正在解锁", Constant.UNLOCK_WAIT_DIALOG_MAX_TIME, null);
                 break;
         }
     }

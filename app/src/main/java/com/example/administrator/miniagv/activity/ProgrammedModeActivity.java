@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import com.example.administrator.miniagv.R;
 import com.example.administrator.miniagv.entity.AgvBean;
 import com.example.administrator.miniagv.utils.Constant;
+import com.example.administrator.miniagv.utils.OnReceiveListen;
+import com.example.administrator.miniagv.utils.SingleUdp;
 import com.example.administrator.miniagv.utils.ToastUtil;
 import com.example.administrator.miniagv.utils.Util;
 import com.example.administrator.miniagv.views.ProgrammedItem;
@@ -45,6 +48,9 @@ public class ProgrammedModeActivity extends AppCompatActivity {
     private View emptyView;
     private LinearLayout.LayoutParams params = new
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+
+    private SingleUdp singleUdp;
+    private byte[] sendContent = new byte[11];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +90,22 @@ public class ProgrammedModeActivity extends AppCompatActivity {
         AgvBean agvBean =(AgvBean)intent.getSerializableExtra(Constant.KEY_MAIN_TO_UNLOCK);
         Log.e(TAG, "agvBeanId = " + agvBean.getGavId());
 
-
+        singleUdp = SingleUdp.getUdpInstance();
+        singleUdp.setUdpIp(agvBean.getGavIp());
+        singleUdp.setUdpRemotePort(Constant.REMOTE_PORT);
+        singleUdp.start();
+        singleUdp.setOnReceiveListen(new OnReceiveListen() {
+            @Override
+            public void onReceiveData(byte[] data, int len, @Nullable String remoteIp) {
+                String mData = Util.bytes2HexString(data,len);
+                if(Util.checkData(mData)){
+                    String cmd = mData.substring(Constant.DATA_CMD_START,Constant.DATA_CMD_END);
+                    if(Constant.CMD_SETTING_LOC_RESPOND.equalsIgnoreCase(cmd)){
+                        ToastUtil.customToast(ProgrammedModeActivity.this,"设置成功");
+                    }
+                }
+            }
+        });
 
         btnAddProgrammedItem.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,11 +159,33 @@ public class ProgrammedModeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int size = programmedItemList.size();
-                ProgrammedItem programmedItem;
-                for (int i = 0; i < size; i++) {
-                    programmedItem = programmedItemList.get(i);
-                    Log.e(TAG, programmedItem.getEtLoc() + " " + programmedItem.getEtRFID() + " " + programmedItem.getEtContent() + " " + programmedItem.getEtSpeed() + " ");
-                    ToastUtil.customToast(ProgrammedModeActivity.this, programmedItem.getEtLoc() + " " + programmedItem.getEtRFID() + " " + programmedItem.getEtContent() + " " + programmedItem.getEtSpeed() + " ");
+                if(size == 0){
+                    ToastUtil.customToast(ProgrammedModeActivity.this,"数据为空！");
+                }else {
+                    ProgrammedItem programmedItem;
+                    for (int i = 0; i < size; i++) {
+                        programmedItem = programmedItemList.get(i);
+//                        //判断输入的内容有没有空的
+//                        if(){
+//
+//                        }
+                        byte[] program = Util.HexString2Bytes(Constant.SEND_DATA_SETTING_RFID.replace(" ", ""));
+
+
+                        //位置
+                        sendContent[0] = Byte.parseByte(programmedItem.getEtLoc());
+                        //RFID卡8字节
+                        byte[] rfidByte = Util.HexString2Bytes(programmedItem.getEtRFID());
+                        System.arraycopy(rfidByte,0,sendContent,1,rfidByte.length);
+                        sendContent[9] = Byte.parseByte(programmedItem.getEtContent());
+                        sendContent[10] = Byte.parseByte(String.valueOf(programmedItem.getRbSpeed()));
+                        System.arraycopy(sendContent,0,program,14,sendContent.length);
+                        program[25] = Util.CheckCode(Util.bytes2HexString(sendContent,sendContent.length));
+                        singleUdp.send(program);
+                        Log.e(TAG, programmedItem.getEtLoc() + " " + programmedItem.getEtRFID() + " " + programmedItem.getEtContent() + " " + programmedItem.getRbSpeed() + " ");
+                        ToastUtil.customToast(ProgrammedModeActivity.this, programmedItem.getEtLoc() + " " + programmedItem.getEtRFID() + " " + programmedItem.getEtContent() + " " + programmedItem.getRbSpeed() + " ");
+
+                    }
                 }
 
             }

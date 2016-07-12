@@ -44,7 +44,8 @@
             android:layout_marginEnd="4dp"
             android:layout_marginRight="4dp"
             android:layout_weight="1"
-            android:maxLength="4" />
+            android:minEms="16"
+            android:maxLength="16" />
 
     </LinearLayout>
 
@@ -93,11 +94,33 @@
 
             />
 
-        <EditText
-            android:id="@+id/etSpeed"
+        <!--<EditText-->
+            <!--android:id="@+id/etSpeed"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:maxLength="4" />-->
+
+        <RadioGroup
+            android:id="@+id/radioGroupProgrammed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:maxLength="4" />
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:checked="true"
+                android:id="@+id/rbSpeed1"
+                android:text="速度1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:id="@+id/rbSpeed2"
+                android:text="速度2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </RadioGroup>
+
     </LinearLayout>
 </LinearLayout>

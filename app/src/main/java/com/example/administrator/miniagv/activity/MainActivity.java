@@ -154,8 +154,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ToastUtil.customToast(this, "没有选择！！！");
                 } else {
                     ToastUtil.customToast(this, "选择了" + String.valueOf(selected));
-                    agvAdapter.setSelected(selected, false);
-                    agvAdapter.notifyDataSetChanged();
+
                     final AgvBean agvBean = (AgvBean) agvAdapter.getItem(selected);
                     spHelper.saveSpAgvId(agvBean.getGavId());
                     spHelper.saveSpAgvIp(agvBean.getGavIp());
@@ -166,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     singleUdp.setUdpRemotePort(Constant.REMOTE_PORT);
                     singleUdp.start();
                     singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_SHAKE.replace(" ", "")));
-                    WaitDialog.showDialog(MainActivity.this,"正在连接",2000,null);
+                    WaitDialog.showDialog(MainActivity.this,"正在连接",Constant.CONNECT_WAIT_DIALOG_MAX_TIME,null);
                     singleUdp.setOnReceiveListen(new OnReceiveListen() {
                         @Override
                         public void onReceiveData(byte[] data, int len, String ip) {
@@ -175,6 +174,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 String cmd = mString.substring(Constant.DATA_CMD_START, Constant.DATA_CMD_END);
                                 if (Constant.CMD_SHAKE_RESPOND.equalsIgnoreCase(cmd)) {
                                     WaitDialog.immediatelyDismiss();
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            agvAdapter.setSelected(selected, false);
+                                            agvAdapter.notifyDataSetChanged();
+                                        }
+                                    });
+
                                     Intent intent = new Intent();
                                     intent.setClass(MainActivity.this, UnlockAgvActivity.class);
                                     Bundle bundle = new Bundle();
@@ -219,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 });
                 WaitDialog.immediatelyDismiss();
-                WaitDialog.showDialog(MainActivity.this, "正在搜索。。。", 5000, broadcastUdp);
+                WaitDialog.showDialog(MainActivity.this, "正在搜索。。。", Constant.SEARCH_WAIT_DIALOG_TIME, broadcastUdp);
 
                 break;
         }
@@ -272,5 +279,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(singleUdp!=null){
+            singleUdp.stop();
+        }
     }
 }

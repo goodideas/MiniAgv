@@ -91,7 +91,6 @@ public class BroadcastUdp {
             @Override
             public void run() {
                 while (!receiveThread.isInterrupted()) {
-                    Log.e(TAG,"测试接收测试接收测试接收测试接收测试接收测试接收测试接收测试接收测试接收测试接收");
                     udpReceivePacket = new DatagramPacket(receiveBytes, receiveBytes.length);
                     try {
                         udpSocket.receive(udpReceivePacket);

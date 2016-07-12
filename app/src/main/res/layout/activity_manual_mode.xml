@@ -8,13 +8,20 @@
     tools:context=".activity.ManualModeActivity">
 
     <TextView
-        android:id="@+id/tvShowFaultId"
+        android:id="@+id/tvManualErrorStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="故障ID" />
+        android:text="无" />
+
+    <TextView
+        android:id="@+id/tvShowFaultId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/tvManualErrorStatus"
+        android:text="错误状态:" />
 
 
 

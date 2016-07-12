@@ -23,6 +23,13 @@ public class Constant {
 
     public static final int REMOTE_PORT = 5678;//远程端口
 
+    public static final int SEARCH_WAIT_DIALOG_TIME = 5000;//搜索设备时间
+    public static final int CONNECT_WAIT_DIALOG_MAX_TIME = 2000;//连接设备时间
+    public static final int UNLOCK_WAIT_DIALOG_MAX_TIME = 2000;//解锁设备时间
+
+
+
+
     /**
      * FFAA  0000000000000000  0100  0100      00    00   FF55
      * 头    MAC               CMD   内容长度   内容  校验  尾
@@ -55,15 +62,20 @@ public class Constant {
     public static final String KEY_MAIN_TO_UNLOCK = "agvBean";//页面跳转 key
 
 
-    public static final String SEND_DATA_SEARCH = "FFAA 0000000000000000 0000 0000 00 FF55";//广播数据
-    public static final String SEND_DATA_SHAKE = "FFAA 0000000000000000 0100 0000 00 FF55";//握手数据
-    public static final String SEND_DATA_QUERY = "FFAA 0000000000000000 0200 0000 00 FF55";//查询数据
-    public static final String SEND_DATA_UNLOCK = "FFAA 0000000000000000 0300 0100 00 00 FF55";//解除急停数据
-    public static final String SEND_DATA_LOCK = "FFAA 0000000000000000 0300 0100 01 01 FF55";//急停数据
-    public static final String SEND_DATA_START_TRACK = "FFAA 0000000000000000 0500 0200 0101 02 FF55";//开始循迹数据
-    public static final String SEND_DATA_STOP_TRACK = "FFAA 0000000000000000 0500 0200 0001 01 FF55";//停止循迹数据
+    public static final String SEND_DATA_SEARCH =           "FFAA 0000000000000000 0000 0000 00 FF55";//广播数据
+    public static final String SEND_DATA_SHAKE =            "FFAA 0000000000000000 0100 0000 00 FF55";//握手数据
+    public static final String SEND_DATA_QUERY =            "FFAA 0000000000000000 0200 0000 00 FF55";//查询数据
+    public static final String SEND_DATA_UNLOCK =           "FFAA 0000000000000000 0300 0100 00 00 FF55";//解除急停数据
+    public static final String SEND_DATA_LOCK =             "FFAA 0000000000000000 0300 0100 01 01 FF55";//急停数据
+    public static final String SEND_DATA_SPEED =            "FFAA 0000000000000000 0400 0200 0000 00 FF55";//手动模式速度数据
+    public static final String SEND_DATA_START_TRACK_S1 =   "FFAA 0000000000000000 0500 0200 0101 02 FF55";//开始循迹（速度1）数据
+    public static final String SEND_DATA_START_TRACK_S2 =   "FFAA 0000000000000000 0500 0200 0102 03 FF55";//开始循迹（速度2）数据
+    public static final String SEND_DATA_STOP_TRACK =       "FFAA 0000000000000000 0500 0200 0000 00 FF55";//停止循迹数据
+    public static final String SEND_DATA_SETTING_RFID =     "FFAA 0000000000000000 0600 0B00 0000000000000000000000 00 FF55";//设置地标卡数据
+    public static final String SEND_DATA_COLOR =             "FFAA 0000000000000000 0700 0400 00000000 00 FF55";//灯光数据
+    public static final String SEND_DATA_BUZZER =            "FFAA 0000000000000000 0800 0200 0000 00 FF55";//蜂鸣器数据
+    public static final String SEND_DATA_STOP_LOC =         "FFAA 0000000000000000 0900 0100 00 00 FF55";//停在指定位置数据
 
-    public static final String SEND_DATA_SPEED = "FFAA 0000000000000000 0400 0200 0000 00 FF55";//手动模式速度数据
 
 
 
