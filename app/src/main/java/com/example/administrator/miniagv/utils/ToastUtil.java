@@ -58,4 +58,9 @@ public class ToastUtil {
     public static void customToast(Context context,int resId){
         customToast(context, context.getResources().getText(resId));
     }
+
+
+
+
+
 }

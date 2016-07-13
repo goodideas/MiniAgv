@@ -44,14 +44,16 @@ public class UnlockAgvActivity extends AppCompatActivity implements View.OnClick
         singleUdp = SingleUdp.getUdpInstance();
         singleUdp.setUdpIp(agvBean.getGavIp());
         singleUdp.setUdpRemotePort(Constant.REMOTE_PORT);
+//        singleUdp.start();
         singleUdp.setOnReceiveListen(new OnReceiveListen() {
             @Override
             public void onReceiveData(byte[] data, int len, @Nullable String remoteIp) {
-                String mData = Util.bytes2HexString(data,len);
+                String mData = Util.bytes2HexString(data, len);
+                Log.e(TAG,"mData="+mData);
                 analysisData(mData);
             }
         });
-        singleUdp.start();
+
         if (btnUnlockAgv != null) {
             btnUnlockAgv.setOnClickListener(this);
         }
@@ -73,6 +75,25 @@ public class UnlockAgvActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        singleUdp = SingleUdp.getUdpInstance();
+        singleUdp.setUdpIp(agvBean.getGavIp());
+        singleUdp.setUdpRemotePort(Constant.REMOTE_PORT);
+        singleUdp.start();
+        singleUdp.setOnReceiveListen(new OnReceiveListen() {
+            @Override
+            public void onReceiveData(byte[] data, int len, @Nullable String remoteIp) {
+                String mData = Util.bytes2HexString(data, len);
+                Log.e(TAG, "mData=" + mData);
+                analysisData(mData);
+            }
+        });
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -87,7 +108,7 @@ public class UnlockAgvActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnUnlockAgv:
-                singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_UNLOCK.replace(" ","")));
+                singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_UNLOCK(agvBean.getGavMac()).replace(" ","")));
                 WaitDialog.showDialog(UnlockAgvActivity.this, "正在解锁", Constant.UNLOCK_WAIT_DIALOG_MAX_TIME, null);
                 break;
         }

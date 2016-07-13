@@ -2,6 +2,7 @@ package com.example.administrator.miniagv.activity;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,7 +35,8 @@ public class ManualModeActivity extends AppCompatActivity {
     private byte leftWheel = 0x00, rightWheel = 0x00;
     private boolean flag = true;
     private TextView tvManualErrorStatus;
-
+    private  AgvBean agvBean;
+    private String mManualErrorStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +55,7 @@ public class ManualModeActivity extends AppCompatActivity {
         speedSeekBarCenter = (SpeedSeekBar) findViewById(R.id.speedSeekBarCenter);
         tvManualErrorStatus = (TextView)findViewById(R.id.tvManualErrorStatus);
         Intent intent = this.getIntent();
-        AgvBean agvBean = (AgvBean) intent.getSerializableExtra(Constant.KEY_MAIN_TO_UNLOCK);
+        agvBean = (AgvBean) intent.getSerializableExtra(Constant.KEY_MAIN_TO_UNLOCK);
         Log.e(TAG, "agvBeanId = " + agvBean.getGavId());
 
         singleUdp = SingleUdp.getUdpInstance();
@@ -67,11 +69,24 @@ public class ManualModeActivity extends AppCompatActivity {
                 if(Util.checkData(mData)){
                     String cmd = mData.substring(Constant.DATA_CMD_START,Constant.DATA_CMD_END);
                     if(Constant.CMD_MANUAL_RESPOND.equalsIgnoreCase(cmd)){
-                        ToastUtil.customToast(ManualModeActivity.this,"操作成功");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtil.customToast(ManualModeActivity.this, "操作成功");
+                            }
+                        });
+
                     }else if(Constant.CMD_ERROR_STATU_RESPOND.equalsIgnoreCase(cmd)){
                         String manualErrorStatus = mData.substring(Constant.DATA_CONTENT_START,Constant.DATA_CONTENT_START+2);
                         int manualErrorStatusInt = Integer.parseInt(manualErrorStatus, 16);
-                        final String mManualErrorStatus = manualErrorStatusInt == 0 ? "距离过近" : "脱轨";
+                        switch (manualErrorStatusInt){
+                            case 0:mManualErrorStatus = "无";
+                                break;
+                            case 1:mManualErrorStatus = "距离过近";
+                                break;
+                            case 2:mManualErrorStatus = "脱轨";
+                                break;
+                        }
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -85,63 +100,85 @@ public class ManualModeActivity extends AppCompatActivity {
         });
 
         speedSeekBarCenter.setAdapter(new SimpleSpeedSeekBarAdapter(resources, new int[]{
-                R.drawable.btn_star5_selector,
-                R.drawable.btn_star4_selector,
+
                 R.drawable.btn_star3_selector,
                 R.drawable.btn_star2_selector,
                 R.drawable.btn_star1_selector,
-                R.drawable.btn_star0_selector
+                R.drawable.btn_star0_selector,
+                R.drawable.btn_star4_selector,
+                R.drawable.btn_star5_selector,
+                R.drawable.btn_star6_selector
+
         }));
         seekBarLeft.setAdapter(new SimpleSpeedSeekBarAdapter(resources, new int[]{
-                R.drawable.btn_star5_selector,
-                R.drawable.btn_star4_selector,
                 R.drawable.btn_star3_selector,
                 R.drawable.btn_star2_selector,
                 R.drawable.btn_star1_selector,
-                R.drawable.btn_star0_selector
+                R.drawable.btn_star0_selector,
+                R.drawable.btn_star4_selector,
+                R.drawable.btn_star5_selector,
+                R.drawable.btn_star6_selector
         }));
         seekBarRight.setAdapter(new SimpleSpeedSeekBarAdapter(resources, new int[]{
-                R.drawable.btn_star5_selector,
-                R.drawable.btn_star4_selector,
                 R.drawable.btn_star3_selector,
                 R.drawable.btn_star2_selector,
                 R.drawable.btn_star1_selector,
-                R.drawable.btn_star0_selector
+                R.drawable.btn_star0_selector,
+                R.drawable.btn_star4_selector,
+                R.drawable.btn_star5_selector,
+                R.drawable.btn_star6_selector
         }));
 
-        seekBarLeft.setPosition(5);
-        seekBarRight.setPosition(5);
-        speedSeekBarCenter.setPosition(5);
+        seekBarLeft.setPosition(3);
+        seekBarRight.setPosition(3);
+        speedSeekBarCenter.setPosition(3);
 
 
         speedSeekBarCenter.setListener(new SpeedSeekBarListener() {
             @Override
             public void onPositionSelected(int position) {
+                int spd;
                 flag = false;
                 seekBarLeft.setPosition(position);
                 seekBarRight.setPosition(position);
                 flag = true;
+
+                spd = position >3 ?position:(3-position);
                 //14 15 16 字节分别是 左轮速度、右轮速度、校验位
-                sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED.replace(" ", ""));
-                sendData[14] = Byte.parseByte((5 - position) + "");
-                sendData[15] = Byte.parseByte((5 - position) + "");
+                sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED(agvBean.getGavMac()).replace(" ", ""));
+                sendData[14] = Byte.parseByte(spd + "");
+                sendData[15] = Byte.parseByte(spd + "");
                 String hexData = Util.bytes2HexString(new byte[]{sendData[14], sendData[15]}, 2);
                 sendData[16] = Util.CheckCode(hexData);
-                singleUdp.send(sendData);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        singleUdp.send(sendData);
+                    }
+                }, 100);
+
             }
         });
         seekBarLeft.setListener(new SpeedSeekBarListener() {
             @Override
             public void onPositionSelected(int position) {
-                leftWheel = Byte.parseByte("" + (5 - position));
+                int spd;
+                spd = position >3 ?position:(3-position);
+                leftWheel = Byte.parseByte("" + spd);
                 if (flag) {
-                    sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED.replace(" ", ""));
+                    sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED(agvBean.getGavMac()).replace(" ", ""));
                     sendData[14] = leftWheel;
                     sendData[15] = rightWheel;
                     String hexData = Util.bytes2HexString(new byte[]{sendData[14], sendData[15]}, 2);
                     sendData[16] = Util.CheckCode(hexData);
-                    singleUdp.send(sendData);
-                    ToastUtil.customToast(ManualModeActivity.this, "seekBarLeft position=" + (5 - position));
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            singleUdp.send(sendData);
+                        }
+                    }, 100);
+
+                    ToastUtil.customToast(ManualModeActivity.this, "seekBarLeft position=" + (spd));
                 }
             }
         });
@@ -149,15 +186,24 @@ public class ManualModeActivity extends AppCompatActivity {
         seekBarRight.setListener(new SpeedSeekBarListener() {
             @Override
             public void onPositionSelected(int position) {
-                rightWheel = Byte.parseByte("" + (5 - position));
+                int spd;
+                spd = position >3 ?position:(3-position);
+                rightWheel = Byte.parseByte("" + spd);
+
                 if (flag) {
-                    sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED.replace(" ", ""));
+                    sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED(agvBean.getGavMac()).replace(" ", ""));
                     sendData[14] = leftWheel;
                     sendData[15] = rightWheel;
                     String hexData = Util.bytes2HexString(new byte[]{sendData[14], sendData[15]}, 2);
                     sendData[16] = Util.CheckCode(hexData);
-                    singleUdp.send(sendData);
-                    ToastUtil.customToast(ManualModeActivity.this, "seekBarRight position=" + (5 - position));
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            singleUdp.send(sendData);
+                        }
+                    }, 100);
+
+                    ToastUtil.customToast(ManualModeActivity.this, "seekBarRight position=" + (spd)+" po="+position);
                 }
             }
         });

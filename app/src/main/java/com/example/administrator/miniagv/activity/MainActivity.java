@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private BroadcastUdp broadcastUdp;
     private SpHelper spHelper;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -164,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     singleUdp.setUdpIp(agvBean.getGavIp());
                     singleUdp.setUdpRemotePort(Constant.REMOTE_PORT);
                     singleUdp.start();
-                    singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_SHAKE.replace(" ", "")));
+                    singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_SHAKE(agvBean.getGavMac()).replace(" ", "")));
                     WaitDialog.showDialog(MainActivity.this,"正在连接",Constant.CONNECT_WAIT_DIALOG_MAX_TIME,null);
                     singleUdp.setOnReceiveListen(new OnReceiveListen() {
                         @Override
@@ -209,7 +208,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                Log.e(TAG, "listSize=" + list.size() + " c=" + c);
 
 //                singleUdp.send("123456789".getBytes());
-
+                agvAdapter.setSelected(selected, false);
+                selected = -1;
+                isSelect = false;
+                agvAdapter.notifyDataSetChanged();
+                for(int i = 0;i<list.size();i++){
+                    list.remove(i);
+                }
+                agvAdapter.notifyDataSetChanged();
                 if (broadcastUdp == null) {
                     broadcastUdp = new BroadcastUdp();
                 }

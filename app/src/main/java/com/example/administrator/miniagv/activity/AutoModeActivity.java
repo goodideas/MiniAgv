@@ -38,6 +38,7 @@ public class AutoModeActivity extends AppCompatActivity implements View.OnClickL
 
     private SingleUdp singleUdp;
     private AgvBean agvBean;
+//    private OnReceiveListen onReceiveListen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,19 @@ public class AutoModeActivity extends AppCompatActivity implements View.OnClickL
         singleUdp.setUdpIp(agvBean.getGavIp());
         singleUdp.setUdpRemotePort(Constant.REMOTE_PORT);
         singleUdp.start();
+//        onReceiveListen = new OnReceiveListen() {
+//            @Override
+//            public void onReceiveData(byte[] data, int len, @Nullable String remoteIp) {
+//                final String mData = Util.bytes2HexString(data, len);
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        analysis(mData);
+//                    }
+//                });
+//            }
+//        };
+//        singleUdp.setOnReceiveListen(onReceiveListen);
         singleUdp.setOnReceiveListen(new OnReceiveListen() {
             @Override
             public void onReceiveData(byte[] data, int len, @Nullable String remoteIp) {
@@ -137,12 +151,14 @@ public class AutoModeActivity extends AppCompatActivity implements View.OnClickL
             //查询数据
             }else if (Constant.CMD_QUERY_RESPOND.equalsIgnoreCase(cmd)) {
 
-                //16byte
+                //18byte
                 //agv模式 1byte
                 //agv状态 1byte
                 //错误状态 1byte
                 //左轮速度 2byte
                 //右轮速度 2byte
+                //光电左 1byte
+                //光电右 1byte
                 //距离 1byte
                 //RFID卡号 8byte
                 String agvMode = data.substring(Constant.DATA_CONTENT_START, Constant.DATA_CONTENT_START + 2);
@@ -150,8 +166,9 @@ public class AutoModeActivity extends AppCompatActivity implements View.OnClickL
                 String agvErrorStatus = data.substring(Constant.DATA_CONTENT_START + 4, Constant.DATA_CONTENT_START + 6);
                 String leftWheelSpeed = data.substring(Constant.DATA_CONTENT_START + 6, Constant.DATA_CONTENT_START + 10);
                 String rightWheelSpeed = data.substring(Constant.DATA_CONTENT_START + 10, Constant.DATA_CONTENT_START + 14);
-                String distance = data.substring(Constant.DATA_CONTENT_START + 14, Constant.DATA_CONTENT_START + 16);
-                String RFID = data.substring(Constant.DATA_CONTENT_START + 16, Constant.DATA_CONTENT_START + 32);
+
+                String distance = data.substring(Constant.DATA_CONTENT_START + 18, Constant.DATA_CONTENT_START + 20);
+                String RFID = data.substring(Constant.DATA_CONTENT_START + 20, Constant.DATA_CONTENT_START + 36);
 
                 int modeInt = Integer.parseInt(agvMode, 16);
                 String mMode = "";
@@ -189,7 +206,15 @@ public class AutoModeActivity extends AppCompatActivity implements View.OnClickL
                 tvAgvStatus.setText(mStatus);
 
                 int errorStatusInt = Integer.parseInt(agvErrorStatus, 16);
-                String mErrorStatus = errorStatusInt == 0 ? "距离过近" : "脱轨";
+                String mErrorStatus = "";
+                switch (errorStatusInt){
+                    case 0:mErrorStatus = "无";
+                        break;
+                    case 1:mErrorStatus = "距离过近";
+                        break;
+                    case 2:mErrorStatus = "脱轨";
+                        break;
+                }
                 tvErrorStatus.setText(mErrorStatus);
 
 
@@ -247,9 +272,18 @@ public class AutoModeActivity extends AppCompatActivity implements View.OnClickL
 
                 //错误状态自动返回
             }else if(Constant.CMD_ERROR_STATU_RESPOND.equalsIgnoreCase(cmd)){
-                String autoErrorStatus = data.substring(Constant.DATA_CONTENT_START,Constant.DATA_CONTENT_START+2);
+                String autoErrorStatus = data.substring(Constant.DATA_CONTENT_START, Constant.DATA_CONTENT_START + 2);
                 int autoErrorStatusInt = Integer.parseInt(autoErrorStatus, 16);
-                String mAutoErrorStatus = autoErrorStatusInt == 0 ? "距离过近" : "脱轨";
+                String mAutoErrorStatus = "";
+                switch (autoErrorStatusInt){
+                    case 0:mAutoErrorStatus = "无";
+                        break;
+                    case 1:mAutoErrorStatus = "距离过近";
+                        break;
+                    case 2:mAutoErrorStatus = "脱轨";
+                        break;
+                }
+
                 tvErrorStatus.setText(mAutoErrorStatus);
             //停在指定位置
             }else if(Constant.CMD_STOP_LOC_RESPOND.equalsIgnoreCase(cmd)){
@@ -276,15 +310,15 @@ public class AutoModeActivity extends AppCompatActivity implements View.OnClickL
             case R.id.btnStartTracking:
                 if (singleUdp != null) {
                     if (rbSpeed == 1) {
-                        singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_START_TRACK_S1.replace(" ", "")));
+                        singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_START_TRACK_S1(agvBean.getGavMac()).replace(" ", "")));
                     } else if (rbSpeed == 2) {
-                        singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_START_TRACK_S2.replace(" ", "")));
+                        singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_START_TRACK_S2(agvBean.getGavMac()).replace(" ", "")));
                     }
                 }
                 break;
             case R.id.btnStopTracking:
                 if (singleUdp != null) {
-                    singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_STOP_TRACK.replace(" ", "")));
+                    singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_STOP_TRACK(agvBean.getGavMac()).replace(" ", "")));
                 }
                 break;
             case R.id.btnLoc:
@@ -294,7 +328,7 @@ public class AutoModeActivity extends AppCompatActivity implements View.OnClickL
                 if (singleUdp != null) {
 //                    14字节
                     String mLoc = etLoc.getText().toString();
-                    byte[] stopLoc = Util.HexString2Bytes(Constant.SEND_DATA_STOP_LOC.replace(" ", ""));
+                    byte[] stopLoc = Util.HexString2Bytes(Constant.SEND_DATA_STOP_LOC(agvBean.getGavMac()).replace(" ", ""));
                     stopLoc[14] = Byte.parseByte(mLoc);
                     stopLoc[15] = Byte.parseByte(mLoc);
                     singleUdp.send(stopLoc);
@@ -303,15 +337,22 @@ public class AutoModeActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.btnGetAgvData:
                 if (singleUdp != null) {
-                    singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_QUERY.replace(" ", "")));
+                    singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_QUERY(agvBean.getGavMac()).replace(" ", "")));
                 }
                 break;
 
             case R.id.btnStop:
                 if (singleUdp != null) {
-                    singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_LOCK.replace(" ", "")));
+                    singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_LOCK(agvBean.getGavMac()).replace(" ", "")));
                 }
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e(TAG, "onDestroy()");
+//        onReceiveListen = null;
     }
 }

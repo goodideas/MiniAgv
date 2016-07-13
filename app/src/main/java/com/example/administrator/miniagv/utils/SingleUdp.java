@@ -83,8 +83,6 @@ public class SingleUdp {
                 udpSocket = new DatagramSocket(udpLocalPort);
             } else {
                 udpSocket = udpSocket == null?new DatagramSocket():udpSocket;
-//                if(udpSocket==null)
-//                udpSocket = new DatagramSocket();
             }
         } catch (UnknownHostException | SocketException e) {
             e.printStackTrace();
@@ -105,13 +103,30 @@ public class SingleUdp {
     //发送
     public void send(byte[] data){
 
+        Log.e(TAG,"发送的数据="+Util.bytes2HexString(data,data.length));
         if(udpSendPacket==null){
             udpSendPacket = new DatagramPacket(data, data.length, inetAddress, udpRemotePort);
-
         }else{
             udpSendPacket.setData(data);
             udpSendPacket.setLength(data.length);
         }
+
+
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    if (udpSocket != null) {
+//                        udpSocket.send(udpSendPacket);
+//
+//                        Log.e(TAG, "udp发送成功！");
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    Log.e(TAG, "udp发送失败！");
+//                }
+//            }
+//        }, 30);
 
         new Thread() {
             @Override
@@ -119,6 +134,7 @@ public class SingleUdp {
                 try {
                     if (udpSocket != null) {
                         udpSocket.send(udpSendPacket);
+
                         Log.e(TAG, "udp发送成功！");
                     }
                 } catch (IOException e) {
@@ -133,6 +149,7 @@ public class SingleUdp {
 
     //接收线程
     private void receiveUdp() {
+
         udpReceiveThread = new Thread() {
             public void run() {
                 while (!udpReceiveThread.isInterrupted()) {

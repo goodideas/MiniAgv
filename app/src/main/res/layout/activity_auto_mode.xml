@@ -6,100 +6,102 @@
     android:background="@drawable/main_bg"
     tools:context=".activity.AutoModeActivity">
 
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/rlAutoModeTop"-->
+    <!--android:layout_marginLeft="4dp"-->
+    <!--android:layout_marginRight="4dp"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tvShowRFID"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginEnd="4dp"-->
+    <!--android:layout_marginRight="4dp"-->
+    <!--android:text="上一次的RFID:" />-->
+
+    <!--<TextView-->
+
+    <!--android:id="@+id/tvRFID"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_toEndOf="@+id/tvShowRFID"-->
+    <!--android:layout_toRightOf="@+id/tvShowRFID"-->
+    <!--android:text="" />-->
+    <!--<TextView-->
+    <!--android:id="@+id/tvErrorStatus"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:text="无" />-->
+    <!--<TextView-->
+    <!--android:id="@+id/tvFaultId"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="错误状态:"-->
+    <!--android:layout_toLeftOf="@id/tvErrorStatus"-->
+    <!--android:layout_toStartOf="@id/tvErrorStatus"-->
+    <!--/>-->
+
+
+    <!--</RelativeLayout>-->
+
+    <!--<RelativeLayout-->
+    <!--android:layout_below="@id/rlAutoModeTop"-->
+    <!--android:id="@+id/rlAutoModeTop2"-->
+    <!--android:layout_marginLeft="4dp"-->
+    <!--android:layout_marginRight="4dp"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tvShowAgvMode"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginEnd="4dp"-->
+    <!--android:layout_marginRight="4dp"-->
+    <!--android:text="AGV模式:" />-->
+
+    <!--<TextView-->
+
+    <!--android:id="@+id/tvAgvMode"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:layout_toEndOf="@id/tvShowAgvMode"-->
+    <!--android:layout_toRightOf="@id/tvShowAgvMode"-->
+    <!--android:text="" />-->
+    <!--<TextView-->
+    <!--android:id="@+id/tvAgvStatus"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_alignParentTop="true"-->
+    <!--android:text="" />-->
+    <!--<TextView-->
+    <!--android:id="@+id/tvShowAgvStatus"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="AGV状态:"-->
+    <!--android:layout_toLeftOf="@id/tvAgvStatus"-->
+    <!--android:layout_toStartOf="@id/tvAgvStatus"-->
+    <!--/>-->
+
+
+    <!--</RelativeLayout>-->
+
     <RelativeLayout
-        android:id="@+id/rlAutoModeTop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tvShowRFID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:layout_marginRight="4dp"
-            android:text="RFID:" />
-
-        <TextView
-
-            android:id="@+id/tvRFID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/tvShowRFID"
-            android:layout_toRightOf="@+id/tvShowRFID"
-            android:text="FFAASSWWEERRFFDD" />
-        <TextView
-            android:id="@+id/tvErrorStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:text="距离过近" />
-        <TextView
-            android:id="@+id/tvFaultId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="错误状态:"
-            android:layout_toLeftOf="@id/tvErrorStatus"
-            android:layout_toStartOf="@id/tvErrorStatus"
-            />
-
-
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_below="@id/rlAutoModeTop"
-        android:id="@+id/rlAutoModeTop2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/tvShowAgvMode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:layout_marginRight="4dp"
-            android:text="AGV模式:" />
-
-        <TextView
-
-            android:id="@+id/tvAgvMode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@id/tvShowAgvMode"
-            android:layout_toRightOf="@id/tvShowAgvMode"
-            android:text="循迹模式" />
-        <TextView
-            android:id="@+id/tvAgvStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:text="前进" />
-        <TextView
-            android:id="@+id/tvShowAgvStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="AGV状态:"
-            android:layout_toLeftOf="@id/tvAgvStatus"
-            android:layout_toStartOf="@id/tvAgvStatus"
-            />
-
-
-
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_below="@id/rlAutoModeTop2"
         android:id="@+id/rlAutoModeTop3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp">
 
         <TextView
             android:id="@+id/tvShowAutoRFID"
@@ -107,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:layout_marginRight="4dp"
-            android:text="检测到RFID:" />
+            android:text="检测到的RFID:" />
 
         <TextView
 
@@ -117,7 +119,8 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@id/tvShowAutoRFID"
             android:layout_toRightOf="@id/tvShowAutoRFID"
-            android:text="AASSDDFFRREEWWQQ" />
+            android:text="" />
+
         <TextView
             android:id="@+id/tvAutoLoc"
             android:layout_width="wrap_content"
@@ -125,25 +128,26 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:text="0" />
+            android:text="" />
+
         <TextView
             android:id="@+id/tvShowAutoLoc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="位置:"
             android:layout_toLeftOf="@id/tvAutoLoc"
             android:layout_toStartOf="@id/tvAutoLoc"
-            />
-
+            android:text="位置:" />
 
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_below="@id/rlAutoModeTop3"
         android:id="@+id/rlAutoModeTop4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rlAutoModeTop3"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp">
 
         <TextView
             android:id="@+id/tvShowAutoAction"
@@ -161,7 +165,8 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@id/tvShowAutoAction"
             android:layout_toRightOf="@id/tvShowAutoAction"
-            android:text="前进" />
+            android:text="" />
+
         <TextView
             android:id="@+id/tvAutoSpeed"
             android:layout_width="wrap_content"
@@ -169,16 +174,15 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:text="0" />
+            android:text="" />
+
         <TextView
             android:id="@+id/tvShowAutoSpeed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="速度:"
             android:layout_toLeftOf="@id/tvAutoSpeed"
             android:layout_toStartOf="@id/tvAutoSpeed"
-            />
-
+            android:text="速度:" />
 
 
     </RelativeLayout>
@@ -187,44 +191,42 @@
         android:id="@+id/llStart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/rlAutoModeTop"
+        android:layout_below="@id/rlAutoModeTop3"
         android:layout_marginTop="90dp"
-        android:gravity="center"
-        >
+        android:gravity="center">
 
         <!--<EditText-->
-            <!--android:id="@+id/etStartSpeed"-->
-            <!--android:layout_width="70dp"-->
-            <!--android:layout_height="42dp"-->
-            <!--android:layout_marginBottom="4dp"-->
-            <!--android:layout_marginLeft="4dp"-->
-            <!--android:layout_marginRight="4dp"-->
-            <!--android:layout_marginTop="4dp"-->
-            <!--android:background="@drawable/edit_text_bg"-->
-            <!--android:hint="速度"-->
-            <!--android:inputType="number"-->
-            <!--android:maxLength="2"-->
-            <!--android:maxLines="1" />-->
+        <!--android:id="@+id/etStartSpeed"-->
+        <!--android:layout_width="70dp"-->
+        <!--android:layout_height="42dp"-->
+        <!--android:layout_marginBottom="4dp"-->
+        <!--android:layout_marginLeft="4dp"-->
+        <!--android:layout_marginRight="4dp"-->
+        <!--android:layout_marginTop="4dp"-->
+        <!--android:background="@drawable/edit_text_bg"-->
+        <!--android:hint="速度"-->
+        <!--android:inputType="number"-->
+        <!--android:maxLength="2"-->
+        <!--android:maxLines="1" />-->
 
         <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/radioGroup"
-            >
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/radioButtonSpeed1"
-                android:text="速度1"
-                android:checked="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="速度1" />
 
             <RadioButton
                 android:id="@+id/radioButtonSpeed2"
-                android:text="速度2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:text="速度2" />
         </RadioGroup>
 
         <Button
@@ -232,13 +234,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
+            android:layout_marginTop="4dp"
             android:background="@drawable/btn_background"
             android:text="开始循迹"
             android:textColor="#FFFFFF" />
-
 
 
         <Button
@@ -257,13 +258,11 @@
         android:id="@+id/llLoc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_below="@id/llStart"
         android:gravity="center"
-        >
+        android:orientation="horizontal">
 
         <EditText
-            android:inputType="phone"
             android:id="@+id/etAutoLoc"
             android:layout_width="70dp"
             android:layout_height="42dp"
@@ -271,12 +270,12 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:layout_marginTop="4dp"
-            android:maxLength="2"
-            android:maxEms="2"
-            android:maxLines="1"
             android:background="@drawable/edit_text_bg"
             android:hint="位置"
-            />
+            android:inputType="phone"
+            android:maxEms="2"
+            android:maxLength="2"
+            android:maxLines="1" />
 
         <!--agv模式-->
         <!--动作内容：4个信息-->
@@ -286,9 +285,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
+            android:layout_marginTop="4dp"
             android:background="@drawable/btn_background"
             android:text="确定"
             android:textColor="#FFFFFF" />
@@ -306,15 +305,15 @@
 
     </LinearLayout>
 
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="90dp"
-        android:stretchColumns="0,1,2"
-        >
+        android:layout_marginBottom="80dp"
+        android:stretchColumns="0,1,2,3">
 
-        <TableRow>
+        <TableRow android:gravity="center">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -359,7 +358,7 @@
 
         </TableRow>
 
-        <TableRow>
+        <TableRow android:gravity="center">
 
             <TextView
 
@@ -372,7 +371,6 @@
                 android:gravity="center"
                 android:paddingBottom="4dp"
                 android:text="(cm/min)" />
-
 
 
             <TextView
@@ -401,7 +399,7 @@
 
         </TableRow>
 
-        <TableRow>
+        <TableRow android:gravity="center">
 
             <TextView
                 android:id="@+id/tvLeftWheelSpeed"
@@ -414,8 +412,7 @@
                 android:gravity="center"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
-                android:text="36" />
-
+                android:text="0" />
 
 
             <TextView
@@ -429,7 +426,7 @@
                 android:gravity="center"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
-                android:text="20" />
+                android:text="0" />
 
             <TextView
                 android:id="@+id/tvRightWheelSpeed"
@@ -442,9 +439,131 @@
                 android:gravity="center"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp"
-                android:text="36"
+                android:text="0"
 
                 />
+
+        </TableRow>
+
+        <!--测试-->
+        <TableRow
+            android:layout_marginTop="2dp"
+            android:gravity="center">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/tv_auto_no_corner_bg"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:text="上一次RFID" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                android:background="@drawable/tv_auto_no_corner_bg"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:text="错误状态" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/tv_auto_no_corner_bg"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:text="AGV模式" />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/tv_auto_no_corner_bg"
+                android:gravity="center"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:text="AGV状态"
+
+                />
+
+        </TableRow>
+        <!--测试-->
+
+        <TableRow android:gravity="center">
+
+            <TextView
+
+                android:id="@+id/tvRFID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/tv_auto_no_corner_bg"
+                android:gravity="center"
+                android:minHeight="50dp"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:maxEms="4"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                android:text="1122334455667788" />
+
+            <TextView
+                android:id="@+id/tvErrorStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/tv_auto_no_corner_bg"
+                android:gravity="center"
+                android:minHeight="50dp"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:text="无" />
+
+            <TextView
+
+                android:id="@+id/tvAgvMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/tv_auto_no_corner_bg"
+                android:gravity="center"
+                android:minHeight="50dp"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tvAgvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/tv_auto_no_corner_bg"
+                android:gravity="center"
+                android:minHeight="50dp"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:text="" />
 
         </TableRow>
 
@@ -452,21 +571,19 @@
         <TableRow>
 
 
-
             <!--<Button-->
-                <!--android:id="@+id/btnLeftWheelSpeed"-->
-                <!--style="?android:attr/buttonBarButtonStyle"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="4dp"-->
-                <!--android:layout_marginLeft="4dp"-->
-                <!--android:layout_marginRight="4dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:background="@drawable/btn_auto_bg"-->
-                <!--android:gravity="center"-->
-                <!--android:text="获取左轮速度"-->
-                <!--android:textColor="#FFFFFF" />-->
-
+            <!--android:id="@+id/btnLeftWheelSpeed"-->
+            <!--style="?android:attr/buttonBarButtonStyle"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="4dp"-->
+            <!--android:layout_marginLeft="4dp"-->
+            <!--android:layout_marginRight="4dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/btn_auto_bg"-->
+            <!--android:gravity="center"-->
+            <!--android:text="获取左轮速度"-->
+            <!--android:textColor="#FFFFFF" />-->
 
 
             <Button
@@ -486,18 +603,18 @@
                 />
 
             <!--<Button-->
-                <!--android:id="@+id/btnRightWheelSpeed"-->
-                <!--style="?android:attr/buttonBarButtonStyle"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="4dp"-->
-                <!--android:layout_marginLeft="4dp"-->
-                <!--android:layout_marginRight="4dp"-->
-                <!--android:layout_weight="1"-->
-                <!--android:background="@drawable/btn_auto_bg"-->
-                <!--android:gravity="center"-->
-                <!--android:text="获取右轮速度"-->
-                <!--android:textColor="#FFFFFF" />-->
+            <!--android:id="@+id/btnRightWheelSpeed"-->
+            <!--style="?android:attr/buttonBarButtonStyle"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="4dp"-->
+            <!--android:layout_marginLeft="4dp"-->
+            <!--android:layout_marginRight="4dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:background="@drawable/btn_auto_bg"-->
+            <!--android:gravity="center"-->
+            <!--android:text="获取右轮速度"-->
+            <!--android:textColor="#FFFFFF" />-->
 
         </TableRow>
 

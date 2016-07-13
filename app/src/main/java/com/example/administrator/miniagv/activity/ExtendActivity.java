@@ -39,6 +39,7 @@ public class ExtendActivity extends AppCompatActivity implements SeekBar.OnSeekB
     private byte[] colorBytes = new byte[4];
     private byte[] buzzerBytes = new byte[2];
     private byte[] sendColor,sendBuzzer;
+    private AgvBean agvBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class ExtendActivity extends AppCompatActivity implements SeekBar.OnSeekB
 
 
         Intent intent = this.getIntent();
-        AgvBean agvBean =(AgvBean)intent.getSerializableExtra(Constant.KEY_MAIN_TO_UNLOCK);
+        agvBean =(AgvBean)intent.getSerializableExtra(Constant.KEY_MAIN_TO_UNLOCK);
         Log.e(TAG, "agvBeanId = " + agvBean.getGavId());
 
 
@@ -85,9 +86,21 @@ public class ExtendActivity extends AppCompatActivity implements SeekBar.OnSeekB
                 if(Util.checkData(mData)){
                     String cmd = mData.substring(Constant.DATA_CMD_START,Constant.DATA_CMD_END);
                     if(Constant.CMD_LIGHTING_RESPOND.equalsIgnoreCase(cmd)){
-                        ToastUtil.customToast(ExtendActivity.this,"LED设置成功");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtil.customToast(ExtendActivity.this, "LED设置成功");
+                            }
+                        });
+
                     }else if(Constant.CMD_BUZZER_RESPOND.equalsIgnoreCase(cmd)){
-                        ToastUtil.customToast(ExtendActivity.this,"蜂鸣器设置成功");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtil.customToast(ExtendActivity.this, "蜂鸣器设置成功");
+                            }
+                        });
+
                     }
                 }
             }
@@ -157,7 +170,7 @@ public class ExtendActivity extends AppCompatActivity implements SeekBar.OnSeekB
             case R.id.btnBuzzer:
                 buzzerBytes[0] = (byte) Integer.parseInt(Integer.toHexString(buzzerHz), 16);
                 buzzerBytes[1] = (byte) Integer.parseInt(Integer.toHexString(buzzerTime), 16);
-                sendBuzzer = Util.HexString2Bytes(Constant.SEND_DATA_BUZZER.replace(" ",""));
+                sendBuzzer = Util.HexString2Bytes(Constant.SEND_DATA_BUZZER(agvBean.getGavMac()).replace(" ", ""));
                 System.arraycopy(buzzerBytes,0,sendBuzzer,14,buzzerBytes.length);
                 sendBuzzer[16] = Util.CheckCode(Util.bytes2HexString(buzzerBytes,buzzerBytes.length));
                 singleUdp.send(sendBuzzer);
@@ -168,7 +181,7 @@ public class ExtendActivity extends AppCompatActivity implements SeekBar.OnSeekB
                 colorBytes[1] = (byte) Integer.parseInt(Integer.toHexString(colorG), 16);
                 colorBytes[2] = (byte) Integer.parseInt(Integer.toHexString(colorB), 16);
                 colorBytes[3] = (byte) Integer.parseInt(Integer.toHexString(colorTime), 16);
-                sendColor = Util.HexString2Bytes(Constant.SEND_DATA_COLOR.replace(" ",""));
+                sendColor = Util.HexString2Bytes(Constant.SEND_DATA_COLOR(agvBean.getGavMac()).replace(" ",""));
                 System.arraycopy(colorBytes,0,sendColor,14,colorBytes.length);
                 sendColor[18] = Util.CheckCode(Util.bytes2HexString(colorBytes,colorBytes.length));
                 singleUdp.send(sendColor);

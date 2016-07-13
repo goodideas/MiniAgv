@@ -51,6 +51,7 @@ public class ProgrammedModeActivity extends AppCompatActivity {
 
     private SingleUdp singleUdp;
     private byte[] sendContent = new byte[11];
+    private AgvBean agvBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,7 @@ public class ProgrammedModeActivity extends AppCompatActivity {
         }
 
         Intent intent = this.getIntent();
-        AgvBean agvBean =(AgvBean)intent.getSerializableExtra(Constant.KEY_MAIN_TO_UNLOCK);
+        agvBean =(AgvBean)intent.getSerializableExtra(Constant.KEY_MAIN_TO_UNLOCK);
         Log.e(TAG, "agvBeanId = " + agvBean.getGavId());
 
         singleUdp = SingleUdp.getUdpInstance();
@@ -101,7 +102,13 @@ public class ProgrammedModeActivity extends AppCompatActivity {
                 if(Util.checkData(mData)){
                     String cmd = mData.substring(Constant.DATA_CMD_START,Constant.DATA_CMD_END);
                     if(Constant.CMD_SETTING_LOC_RESPOND.equalsIgnoreCase(cmd)){
-                        ToastUtil.customToast(ProgrammedModeActivity.this,"设置成功");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ToastUtil.customToast(ProgrammedModeActivity.this, "设置成功");
+                            }
+                        });
+
                     }
                 }
             }
@@ -169,7 +176,7 @@ public class ProgrammedModeActivity extends AppCompatActivity {
 //                        if(){
 //
 //                        }
-                        byte[] program = Util.HexString2Bytes(Constant.SEND_DATA_SETTING_RFID.replace(" ", ""));
+                        byte[] program = Util.HexString2Bytes(Constant.SEND_DATA_SETTING_RFID(agvBean.getGavMac()).replace(" ", ""));
 
 
                         //位置
