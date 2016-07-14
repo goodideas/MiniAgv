@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -46,10 +47,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int lastSelect = -1;
     private boolean isSelect = false;
     private int selected = -1;
-    private Toolbar toolbar;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private DrawerLayout mDrawerLayout;
-    private long exitTime = 0;
+//    private Toolbar toolbar;
+//    private ActionBarDrawerToggle mDrawerToggle;
+//    private DrawerLayout mDrawerLayout;
+//    private long exitTime = 0;
     private LinearLayout.LayoutParams params = new
             LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
 
@@ -106,23 +107,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
 
 
-        mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar,
-                R.string.app_name, R.string.app_name) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                drawerView.setClickable(true);
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                drawerView.setClickable(false);
-            }
-        };
-
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
+//        mDrawerToggle = new ActionBarDrawerToggle(MainActivity.this, mDrawerLayout, toolbar,
+//                R.string.app_name, R.string.app_name) {
+//            @Override
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+//                drawerView.setClickable(true);
+//            }
+//
+//            @Override
+//            public void onDrawerClosed(View drawerView) {
+//                super.onDrawerClosed(drawerView);
+//                drawerView.setClickable(false);
+//            }
+//        };
+//
+//        mDrawerLayout.setDrawerListener(mDrawerToggle);
+//        mDrawerToggle.syncState();
 
 
     }
@@ -130,17 +131,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void init() {
         setContentView(R.layout.activity_main);
 
-        toolbar = (Toolbar) findViewById(R.id.toolBar);
+//        toolbar = (Toolbar) findViewById(R.id.toolBar);
         btnConnectAgv = (Button) findViewById(R.id.btnConnectAgv);
         btnSearchAgv = (Button) findViewById(R.id.btnSearchAgv);
         lvAgv = (ListView) findViewById(R.id.lvAgv);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+//
+//        toolbar.setTitle(R.string.app_name);
+//        toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
+//        setSupportActionBar(toolbar);
+//        if (getSupportActionBar() != null) {
+//            getSupportActionBar().setHomeButtonEnabled(true);
+//        }
 
-        toolbar.setTitle(R.string.app_name);
-        toolbar.setTitleTextColor(Color.parseColor("#FFFFFF"));
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setHomeButtonEnabled(true);
+        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setTitle("主页面");
+
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setSubtitle("AGV列表");
         }
         spHelper = new SpHelper(MainActivity.this);
     }
@@ -181,14 +190,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                         }
                                     });
 
-                                    Intent intent = new Intent();
-                                    intent.setClass(MainActivity.this, UnlockAgvActivity.class);
-                                    Bundle bundle = new Bundle();
-                                    bundle.putSerializable(Constant.KEY_MAIN_TO_UNLOCK, agvBean);
-                                    intent.putExtras(bundle);
-                                    startActivity(intent);
+//                                    Intent intent = new Intent();
+//                                    intent.setClass(MainActivity.this, UnlockAgvActivity.class);
+//                                    Bundle bundle = new Bundle();
+//                                    bundle.putSerializable(Constant.KEY_MAIN_TO_UNLOCK, agvBean);
+//                                    intent.putExtras(bundle);
+//                                    startActivity(intent);
                                     selected = -1;
                                     isSelect = false;
+                                    finish();
                                 }
                             }
 
@@ -257,29 +267,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK
-                && event.getAction() == KeyEvent.ACTION_DOWN) {
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK
+//                && event.getAction() == KeyEvent.ACTION_DOWN) {
+//
+//            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+//                mDrawerLayout.closeDrawer(GravityCompat.START);
+//            } else if (System.currentTimeMillis() - exitTime > 2000) {
+//                ToastUtil.customToast(getApplicationContext(), "再按一次退出");
+//                exitTime = System.currentTimeMillis();
+//            } else {
+//                finish();
+//            }
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
-            if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-                mDrawerLayout.closeDrawer(GravityCompat.START);
-            } else if (System.currentTimeMillis() - exitTime > 2000) {
-                ToastUtil.customToast(getApplicationContext(), "再按一次退出");
-                exitTime = System.currentTimeMillis();
-            } else {
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
                 finish();
-            }
-            return true;
+                return true;
         }
-        return super.onKeyDown(keyCode, event);
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(singleUdp!=null){
-            singleUdp.stop();
-        }
+//        if(singleUdp!=null){
+//            singleUdp.stop();
+//        }
     }
 }

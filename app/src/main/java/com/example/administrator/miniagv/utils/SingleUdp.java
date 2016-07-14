@@ -79,11 +79,11 @@ public class SingleUdp {
 
         try {
             inetAddress = InetAddress.getByName(ipAddress);
-            if (udpLocalPort != -1) {
-                udpSocket = new DatagramSocket(udpLocalPort);
-            } else {
+        //    if (udpLocalPort != -1) {
+        //        udpSocket = new DatagramSocket(udpLocalPort);
+       //     } else {
                 udpSocket = udpSocket == null?new DatagramSocket():udpSocket;
-            }
+      //      }
         } catch (UnknownHostException | SocketException e) {
             e.printStackTrace();
         }
@@ -139,7 +139,7 @@ public class SingleUdp {
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Log.e(TAG, "udp发送失败！");
+                    Log.e(TAG, "udp发送失败！"+e.toString());
                 }
             }
         }.start();
