@@ -109,4 +109,15 @@ public class FunctionMenuActivity extends AppCompatActivity implements View.OnCl
                 break;
         }
     }
+
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
+        super.startActivityForResult(intent, requestCode, options);
+        int value = intent.getIntExtra(Constant.INTENT_NAME,-1);
+        if(value == Constant.INTENT_VALUE&&requestCode == Constant.AUTO_MODE_TO_FUNCTION_MENU_RESULT_CODE){
+            finish();
+        }
+
+    }
 }

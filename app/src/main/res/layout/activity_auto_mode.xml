@@ -524,7 +524,7 @@
                 android:maxEms="4"
                 android:paddingLeft="6dp"
                 android:paddingRight="6dp"
-                android:text="1122334455667788" />
+                android:text="" />
 
             <TextView
                 android:id="@+id/tvErrorStatus"

@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -38,6 +40,9 @@ public class ManualModeActivity extends AppCompatActivity {
     private  AgvBean agvBean;
     private String mManualErrorStatus;
 
+    private long currentTime = 0;
+    private int countSend = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,10 +70,10 @@ public class ManualModeActivity extends AppCompatActivity {
         singleUdp.setOnReceiveListen(new OnReceiveListen() {
             @Override
             public void onReceiveData(byte[] data, int len, @Nullable String remoteIp) {
-                String mData = Util.bytes2HexString(data,len);
-                if(Util.checkData(mData)){
-                    String cmd = mData.substring(Constant.DATA_CMD_START,Constant.DATA_CMD_END);
-                    if(Constant.CMD_MANUAL_RESPOND.equalsIgnoreCase(cmd)){
+                String mData = Util.bytes2HexString(data, len);
+                if (Util.checkData(mData)) {
+                    String cmd = mData.substring(Constant.DATA_CMD_START, Constant.DATA_CMD_END);
+                    if (Constant.CMD_MANUAL_RESPOND.equalsIgnoreCase(cmd)) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -76,15 +81,18 @@ public class ManualModeActivity extends AppCompatActivity {
                             }
                         });
 
-                    }else if(Constant.CMD_ERROR_STATU_RESPOND.equalsIgnoreCase(cmd)){
-                        String manualErrorStatus = mData.substring(Constant.DATA_CONTENT_START,Constant.DATA_CONTENT_START+2);
+                    } else if (Constant.CMD_ERROR_STATU_RESPOND.equalsIgnoreCase(cmd)) {
+                        String manualErrorStatus = mData.substring(Constant.DATA_CONTENT_START, Constant.DATA_CONTENT_START + 2);
                         int manualErrorStatusInt = Integer.parseInt(manualErrorStatus, 16);
-                        switch (manualErrorStatusInt){
-                            case 0:mManualErrorStatus = "无";
+                        switch (manualErrorStatusInt) {
+                            case 0:
+                                mManualErrorStatus = "无";
                                 break;
-                            case 1:mManualErrorStatus = "距离过近";
+                            case 1:
+                                mManualErrorStatus = "距离过近";
                                 break;
-                            case 2:mManualErrorStatus = "脱轨";
+                            case 2:
+                                mManualErrorStatus = "脱轨";
                                 break;
                         }
                         runOnUiThread(new Runnable() {
@@ -134,77 +142,148 @@ public class ManualModeActivity extends AppCompatActivity {
         speedSeekBarCenter.setPosition(3);
 
 
+        speedSeekBarCenter.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    countSend = 0;
+                }
+
+                return false;
+            }
+        });
+
+
+        seekBarLeft.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
+                    countSend = 0;
+                }
+
+                return false;
+            }
+        });
+
+        seekBarRight.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    countSend = 0;
+                }
+
+                return false;
+            }
+        });
+
         speedSeekBarCenter.setListener(new SpeedSeekBarListener() {
             @Override
             public void onPositionSelected(int position) {
-                int spd;
+                final int spd;
                 flag = false;
                 seekBarLeft.setPosition(position);
                 seekBarRight.setPosition(position);
                 flag = true;
+                if (System.currentTimeMillis() - currentTime > 200) {
+                    countSend = 0;
+                    currentTime = System.currentTimeMillis();
+                }else{
+                    countSend++;
+                    currentTime = System.currentTimeMillis();
+                }
 
+                Log.e(TAG, "countSend = " + countSend);
                 spd = position >3 ?position:(3-position);
                 //14 15 16 字节分别是 左轮速度、右轮速度、校验位
-                sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED(agvBean.getGavMac()).replace(" ", ""));
-                sendData[14] = Byte.parseByte(spd + "");
-                sendData[15] = Byte.parseByte(spd + "");
-                String hexData = Util.bytes2HexString(new byte[]{sendData[14], sendData[15]}, 2);
-                sendData[16] = Util.CheckCode(hexData);
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED(agvBean.getGavMac()).replace(" ", ""));
+                        sendData[14] = Byte.parseByte(spd + "");
+                        sendData[15] = Byte.parseByte(spd + "");
+                        String hexData = Util.bytes2HexString(new byte[]{sendData[14], sendData[15]}, 2);
+                        sendData[16] = Util.CheckCode(hexData);
                         singleUdp.send(sendData);
                     }
-                }, 100);
+                }, countSend*100);
 
             }
         });
         seekBarLeft.setListener(new SpeedSeekBarListener() {
             @Override
             public void onPositionSelected(int position) {
-                int spd;
+                final int spd;
+
+                if (System.currentTimeMillis() - currentTime > 200) {
+                    countSend = 0;
+                    currentTime = System.currentTimeMillis();
+                }else{
+                    countSend++;
+                    currentTime = System.currentTimeMillis();
+                }
+
+
                 spd = position >3 ?position:(3-position);
                 leftWheel = Byte.parseByte("" + spd);
                 if (flag) {
-                    sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED(agvBean.getGavMac()).replace(" ", ""));
-                    sendData[14] = leftWheel;
-                    sendData[15] = rightWheel;
-                    String hexData = Util.bytes2HexString(new byte[]{sendData[14], sendData[15]}, 2);
-                    sendData[16] = Util.CheckCode(hexData);
+
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED(agvBean.getGavMac()).replace(" ", ""));
+                            sendData[14] = Byte.parseByte("" + spd);
+                            sendData[15] = rightWheel;
+                            String hexData = Util.bytes2HexString(new byte[]{sendData[14], sendData[15]}, 2);
+                            sendData[16] = Util.CheckCode(hexData);
                             singleUdp.send(sendData);
                         }
-                    }, 100);
+                    }, countSend*100);
 
-                    ToastUtil.customToast(ManualModeActivity.this, "seekBarLeft position=" + (spd));
+
                 }
+                ToastUtil.customToast(ManualModeActivity.this, "seekBarLeft position=" + (spd));
             }
         });
 
         seekBarRight.setListener(new SpeedSeekBarListener() {
             @Override
             public void onPositionSelected(int position) {
-                int spd;
+                final int spd;
+
+                if (System.currentTimeMillis() - currentTime > 200) {
+                    countSend = 0;
+                    currentTime = System.currentTimeMillis();
+                }else{
+                    countSend++;
+                    currentTime = System.currentTimeMillis();
+                }
+
                 spd = position >3 ?position:(3-position);
+
+
                 rightWheel = Byte.parseByte("" + spd);
 
                 if (flag) {
-                    sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED(agvBean.getGavMac()).replace(" ", ""));
-                    sendData[14] = leftWheel;
-                    sendData[15] = rightWheel;
-                    String hexData = Util.bytes2HexString(new byte[]{sendData[14], sendData[15]}, 2);
-                    sendData[16] = Util.CheckCode(hexData);
+
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+                            sendData = Util.HexString2Bytes(Constant.SEND_DATA_SPEED(agvBean.getGavMac()).replace(" ", ""));
+                            sendData[14] = leftWheel;
+                            sendData[15] = Byte.parseByte("" + spd);
+                            String hexData = Util.bytes2HexString(new byte[]{sendData[14], sendData[15]}, 2);
+                            sendData[16] = Util.CheckCode(hexData);
                             singleUdp.send(sendData);
                         }
-                    }, 100);
+                    }, countSend*100);
 
-                    ToastUtil.customToast(ManualModeActivity.this, "seekBarRight position=" + (spd)+" po="+position);
+
                 }
+                ToastUtil.customToast(ManualModeActivity.this, "seekBarRight position=" + (spd)+" po="+position);
             }
         });
 

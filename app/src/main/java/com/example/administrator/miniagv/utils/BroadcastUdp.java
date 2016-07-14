@@ -124,6 +124,7 @@ public class BroadcastUdp {
         }
         if(udpSocket!=null){
             udpSocket.close();
+            Log.e(TAG,"broadcastClose");
         }
     }
 

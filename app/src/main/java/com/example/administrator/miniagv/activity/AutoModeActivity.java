@@ -148,6 +148,11 @@ public class AutoModeActivity extends AppCompatActivity implements View.OnClickL
             //急停
             } else if(Constant.CMD_UNLOCK_RESPOND.equalsIgnoreCase(cmd)){
                 ToastUtil.customToast(AutoModeActivity.this,"急停");
+                Intent in = new Intent();
+                in.putExtra(Constant.INTENT_NAME,Constant.INTENT_VALUE);
+                setResult(Constant.AUTO_MODE_TO_FUNCTION_MENU_RESULT_CODE, in);
+                finish();
+
             //查询数据
             }else if (Constant.CMD_QUERY_RESPOND.equalsIgnoreCase(cmd)) {
 

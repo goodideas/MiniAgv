@@ -200,14 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             case R.id.btnSearchAgv:
-//                AgvBean agvBean = new AgvBean();
-//                agvBean.setGavId(String.valueOf(c++));
-//                list.add(agvBean);
-//                agvAdapter.notifyDataSetChanged();
-//                lvAgv.smoothScrollToPosition(list.size());
-//                Log.e(TAG, "listSize=" + list.size() + " c=" + c);
 
-//                singleUdp.send("123456789".getBytes());
                 agvAdapter.setSelected(selected, false);
                 selected = -1;
                 isSelect = false;
