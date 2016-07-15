@@ -184,13 +184,13 @@ public class ProgrammedModeActivity extends AppCompatActivity {
                         //RFID卡8字节
                         byte[] rfidByte = Util.HexString2Bytes(programmedItem.getEtRFID());
                         System.arraycopy(rfidByte,0,sendContent,1,rfidByte.length);
-                        sendContent[9] = Byte.parseByte(programmedItem.getEtContent());
+                        sendContent[9] = Byte.parseByte(String.valueOf(programmedItem.getSpinnerSelect()));
                         sendContent[10] = Byte.parseByte(String.valueOf(programmedItem.getRbSpeed()));
                         System.arraycopy(sendContent,0,program,14,sendContent.length);
                         program[25] = Util.CheckCode(Util.bytes2HexString(sendContent,sendContent.length));
                         singleUdp.send(program);
-                        Log.e(TAG, programmedItem.getEtLoc() + " " + programmedItem.getEtRFID() + " " + programmedItem.getEtContent() + " " + programmedItem.getRbSpeed() + " ");
-                        ToastUtil.customToast(ProgrammedModeActivity.this, programmedItem.getEtLoc() + " " + programmedItem.getEtRFID() + " " + programmedItem.getEtContent() + " " + programmedItem.getRbSpeed() + " ");
+                        Log.e(TAG, programmedItem.getEtLoc() + " " + programmedItem.getEtRFID() + " " + programmedItem.getSpinnerSelect() + " " + programmedItem.getRbSpeed() + " ");
+                        ToastUtil.customToast(ProgrammedModeActivity.this, programmedItem.getEtLoc() + " " + programmedItem.getEtRFID() + " " + programmedItem.getSpinnerSelect() + " " + programmedItem.getRbSpeed() + " ");
 
                     }
                 }

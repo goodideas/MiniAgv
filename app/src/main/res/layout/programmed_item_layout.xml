@@ -118,14 +118,20 @@
 
             />
 
-        <EditText
-            android:id="@+id/etContent"
-            android:layout_width="40dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="4dp"
-            android:layout_marginRight="4dp"
-            android:maxLines="1"
-            android:maxLength="2" />
+        <!--<EditText-->
+            <!--android:id="@+id/etContent"-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginEnd="4dp"-->
+            <!--android:layout_marginRight="4dp"-->
+            <!--android:maxLines="1"-->
+            <!--android:maxLength="2" />-->
+
+        <Spinner
+            android:id="@+id/spinnerProgrammed"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:spinnerMode="dialog" />
 
 
     </LinearLayout>

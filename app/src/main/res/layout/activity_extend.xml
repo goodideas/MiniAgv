@@ -128,9 +128,12 @@
             android:layout_height="wrap_content"
             android:text="显示时间(秒):" />
 
-        <TextView
+        <EditText
             android:id="@+id/tvColorTime"
-            android:layout_width="35dp"
+            android:inputType="phone"
+            android:layout_width="50dp"
+            android:background="@drawable/edit_text_bg"
+            android:maxLength="3"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:layout_marginLeft="4dp"
@@ -174,9 +177,12 @@
             android:layout_height="wrap_content"
             android:text="蜂鸣器频率:" />
 
-        <TextView
+        <EditText
             android:id="@+id/tvBuzzerHz"
-            android:layout_width="35dp"
+            android:layout_width="50dp"
+            android:background="@drawable/edit_text_bg"
+            android:maxLength="3"
+            android:inputType="phone"
             android:layout_height="wrap_content"
             android:text=""
             android:textColor="#FFF"
@@ -204,9 +210,12 @@
             android:layout_height="wrap_content"
             android:text="蜂鸣器时间(秒):" />
 
-        <TextView
+        <EditText
             android:id="@+id/tvBuzzerTime"
-            android:layout_width="35dp"
+            android:layout_width="50dp"
+            android:background="@drawable/edit_text_bg"
+            android:inputType="phone"
+            android:maxLength="3"
             android:layout_height="wrap_content"
             android:text=""
             android:textColor="#FFF"

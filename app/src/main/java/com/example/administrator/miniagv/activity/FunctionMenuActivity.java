@@ -85,9 +85,10 @@ public class FunctionMenuActivity extends AppCompatActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.btnAutoMode:
 
-                mIntent.setClass(FunctionMenuActivity.this,AutoModeActivity.class);
+                mIntent.setClass(FunctionMenuActivity.this, AutoModeActivity.class);
                 mIntent.putExtras(mBundle);
-                startActivity(mIntent);
+                startActivityForResult(mIntent, Constant.FUNCTION_REQUEST_CODE);
+//                startActivity(mIntent);
                 break;
             case R.id.btnRFIDProgrammed:
 
@@ -99,7 +100,7 @@ public class FunctionMenuActivity extends AppCompatActivity implements View.OnCl
 
                 mIntent.setClass(FunctionMenuActivity.this, ManualModeActivity.class);
                 mIntent.putExtras(mBundle);
-                startActivity(mIntent);
+                startActivityForResult(mIntent, Constant.FUNCTION_REQUEST_CODE);
                 break;
             case R.id.btnExtend:
 
@@ -111,12 +112,17 @@ public class FunctionMenuActivity extends AppCompatActivity implements View.OnCl
     }
 
 
+
+
     @Override
-    public void startActivityForResult(Intent intent, int requestCode, Bundle options) {
-        super.startActivityForResult(intent, requestCode, options);
-        int value = intent.getIntExtra(Constant.INTENT_NAME,-1);
-        if(value == Constant.INTENT_VALUE&&requestCode == Constant.AUTO_MODE_TO_FUNCTION_MENU_RESULT_CODE){
-            finish();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == Constant.FUNCTION_REQUEST_CODE&&data!=null){
+            int value = data.getIntExtra(Constant.INTENT_NAME,-1);
+            Log.e(TAG, "resultCode=" + resultCode + " value=" + value);
+            if(value == Constant.INTENT_VALUE&&resultCode == Constant.AUTO_MODE_TO_FUNCTION_MENU_RESULT_CODE){
+                finish();
+            }
         }
 
     }

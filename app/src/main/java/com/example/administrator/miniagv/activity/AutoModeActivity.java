@@ -67,19 +67,6 @@ public class AutoModeActivity extends AppCompatActivity implements View.OnClickL
         singleUdp.setUdpIp(agvBean.getGavIp());
         singleUdp.setUdpRemotePort(Constant.REMOTE_PORT);
         singleUdp.start();
-//        onReceiveListen = new OnReceiveListen() {
-//            @Override
-//            public void onReceiveData(byte[] data, int len, @Nullable String remoteIp) {
-//                final String mData = Util.bytes2HexString(data, len);
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        analysis(mData);
-//                    }
-//                });
-//            }
-//        };
-//        singleUdp.setOnReceiveListen(onReceiveListen);
         singleUdp.setOnReceiveListen(new OnReceiveListen() {
             @Override
             public void onReceiveData(byte[] data, int len, @Nullable String remoteIp) {
@@ -147,11 +134,11 @@ public class AutoModeActivity extends AppCompatActivity implements View.OnClickL
                 ToastUtil.customToast(AutoModeActivity.this, "开始/停止循迹");
             //急停
             } else if(Constant.CMD_UNLOCK_RESPOND.equalsIgnoreCase(cmd)){
-                ToastUtil.customToast(AutoModeActivity.this,"急停");
+                ToastUtil.customToast(AutoModeActivity.this, "急停");
                 Intent in = new Intent();
-                in.putExtra(Constant.INTENT_NAME,Constant.INTENT_VALUE);
+                in.putExtra(Constant.INTENT_NAME, Constant.INTENT_VALUE);
                 setResult(Constant.AUTO_MODE_TO_FUNCTION_MENU_RESULT_CODE, in);
-                finish();
+                AutoModeActivity.this.finish();
 
             //查询数据
             }else if (Constant.CMD_QUERY_RESPOND.equalsIgnoreCase(cmd)) {
@@ -268,6 +255,7 @@ public class AutoModeActivity extends AppCompatActivity implements View.OnClickL
                     case 3:
                         mAction = "靠右行驶";
                         break;
+
                 }
                 tvAutoAction.setText(mAction);
 

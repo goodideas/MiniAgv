@@ -59,6 +59,7 @@ public class Constant {
     public static final String KEY_MAIN_TO_UNLOCK = "agvBean";//页面跳转 key
     public static final String INTENT_NAME = "finish";//页面传值 name
     public static final int AUTO_MODE_TO_FUNCTION_MENU_RESULT_CODE = 1;//resultCode;
+    public static final int FUNCTION_REQUEST_CODE = 2;//request;
     public static final int INTENT_VALUE = 1;//resultCode;
 
 

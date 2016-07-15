@@ -6,7 +6,14 @@ import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.Selection;
+import android.text.Spannable;
+import android.text.TextUtils;
+import android.text.method.BaseKeyListener;
+import android.text.method.KeyListener;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +35,7 @@ public class ExtendActivity extends AppCompatActivity implements SeekBar.OnSeekB
     private static final String TAG = "ExtendActivity";
     private ColorPicker colorPicker;
     private EditText etR, etG, etB;
-    private TextView tvColorTime, tvBuzzerHz, tvBuzzerTime;
+    private EditText tvColorTime, tvBuzzerHz, tvBuzzerTime;
     private android.support.v7.widget.AppCompatSeekBar seekBarColorTime, seekBarBuzzerHz, seekBarBuzzerTime;
 
     private Button btnColor,btnBuzzer;
@@ -58,9 +65,9 @@ public class ExtendActivity extends AppCompatActivity implements SeekBar.OnSeekB
         etG = (EditText) findViewById(R.id.etG);
         etB = (EditText) findViewById(R.id.etB);
 
-        tvColorTime = (TextView) findViewById(R.id.tvColorTime);
-        tvBuzzerHz = (TextView) findViewById(R.id.tvBuzzerHz);
-        tvBuzzerTime = (TextView) findViewById(R.id.tvBuzzerTime);
+        tvColorTime = (EditText) findViewById(R.id.tvColorTime);
+        tvBuzzerHz = (EditText) findViewById(R.id.tvBuzzerHz);
+        tvBuzzerTime = (EditText) findViewById(R.id.tvBuzzerTime);
 
         btnColor = (Button)findViewById(R.id.btnColor);
         btnBuzzer = (Button)findViewById(R.id.btnBuzzer);
@@ -69,10 +76,59 @@ public class ExtendActivity extends AppCompatActivity implements SeekBar.OnSeekB
         seekBarBuzzerHz = (android.support.v7.widget.AppCompatSeekBar) findViewById(R.id.seekBarBuzzerHz);
         seekBarBuzzerTime = (android.support.v7.widget.AppCompatSeekBar) findViewById(R.id.seekBarBuzzerTime);
 
-
         Intent intent = this.getIntent();
         agvBean =(AgvBean)intent.getSerializableExtra(Constant.KEY_MAIN_TO_UNLOCK);
         Log.e(TAG, "agvBeanId = " + agvBean.getGavId());
+        tvColorTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+
+                    if (!TextUtils.isEmpty(tvColorTime.getText().toString())) {
+                        CharSequence charSequence = tvColorTime.getText();
+                        Spannable spanText = (Spannable) charSequence;
+                        Selection.setSelection(spanText, charSequence.length());
+                        seekBarColorTime.setProgress(Integer.valueOf(tvColorTime.getText().toString()));
+                    } else {
+                        seekBarColorTime.setProgress(0);
+                    }
+                }
+            }
+        });
+
+        tvBuzzerHz.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+
+                    if(!TextUtils.isEmpty(tvBuzzerHz.getText().toString())){
+                        CharSequence charSequence = tvBuzzerHz.getText();
+                        Spannable spanText = (Spannable) charSequence;
+                        Selection.setSelection(spanText, charSequence.length());
+                        seekBarBuzzerHz.setProgress(Integer.valueOf(tvBuzzerHz.getText().toString()));
+                    }else{
+                        seekBarBuzzerHz.setProgress(0);
+                    }
+                }
+            }
+        });
+
+        tvBuzzerTime.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+
+                    if(!TextUtils.isEmpty(tvBuzzerTime.getText().toString())){
+                        CharSequence charSequence = tvBuzzerTime.getText();
+                        Spannable spanText = (Spannable) charSequence;
+                        Selection.setSelection(spanText, charSequence.length());
+                        seekBarBuzzerTime.setProgress(Integer.valueOf(tvBuzzerTime.getText().toString()));
+                    }else{
+                        seekBarBuzzerTime.setProgress(0);
+                    }
+                }
+            }
+        });
 
 
         singleUdp = SingleUdp.getUdpInstance();
@@ -134,7 +190,7 @@ public class ExtendActivity extends AppCompatActivity implements SeekBar.OnSeekB
                 tvColorTime.setText(String.valueOf(progress));
                 break;
             case R.id.seekBarBuzzerHz:
-                buzzerHz = progress;
+                buzzerHz = progress >220 ?220:progress;
                 tvBuzzerHz.setText(String.valueOf(progress));
                 break;
             case R.id.seekBarBuzzerTime:
