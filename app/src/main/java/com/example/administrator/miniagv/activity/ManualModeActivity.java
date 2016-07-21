@@ -52,9 +52,9 @@ public class ManualModeActivity extends AppCompatActivity {
         final Resources resources = getResources();
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("选择功能");
+            actionBar.setTitle("手动模式");
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setSubtitle("手动模式");
+            actionBar.setSubtitle("选择功能");
         }
 
         seekBarLeft = (SpeedSeekBar) findViewById(R.id.speedSeekBarLeft);

@@ -115,10 +115,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if(actionBar!=null){
-            actionBar.setTitle("主页面");
+            actionBar.setTitle("AGV列表");
 
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setSubtitle("AGV列表");
+            actionBar.setSubtitle("主页面");
         }
         spHelper = new SpHelper(MainActivity.this);
     }

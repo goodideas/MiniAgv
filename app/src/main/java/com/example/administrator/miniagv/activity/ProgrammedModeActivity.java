@@ -60,9 +60,9 @@ public class ProgrammedModeActivity extends AppCompatActivity {
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("选择功能");
+            actionBar.setTitle("RFID编程");
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setSubtitle("RFID编程");
+            actionBar.setSubtitle("选择功能");
         }
 
         llProgrammedItem = (LinearLayout) findViewById(R.id.llProgrammedItem);

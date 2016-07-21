@@ -34,9 +34,9 @@ public class FunctionMenuActivity extends AppCompatActivity implements View.OnCl
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("解锁AGV");
+            actionBar.setTitle("选择功能");
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setSubtitle("选择功能");
+            actionBar.setSubtitle("解锁AGV");
         }
         int screenWidth = Util.getScreenWidth(this);
         int btnMeasure = (int)(screenWidth*0.4);

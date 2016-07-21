@@ -115,9 +115,9 @@ public class AutoModeActivity extends AppCompatActivity implements View.OnClickL
 
         android.support.v7.app.ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("选择功能");
+            actionBar.setTitle("自动模式");
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setSubtitle("自动模式");
+            actionBar.setSubtitle("选择功能");
         }
 
         Intent intent = this.getIntent();

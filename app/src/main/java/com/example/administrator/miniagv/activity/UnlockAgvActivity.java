@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -58,17 +59,6 @@ public class UnlockAgvActivity extends AppCompatActivity implements View.OnClick
         agvBean.setGavIp(spHelper.getSpAgvIp());
         agvBean.setGavMac(spHelper.getSpAgvMac());
         agvBean.setGavId(spHelper.getSpAgvId());
-//        android.support.v7.app.ActionBar actionBar = getSupportActionBar();
-//        if(actionBar!=null){
-//            actionBar.setTitle("主页面");
-//
-//            actionBar.setDisplayHomeAsUpEnabled(true);
-//            actionBar.setSubtitle("解锁AGV");
-//        }
-
-//        Intent intent = this.getIntent();
-//        agvBean =(AgvBean)intent.getSerializableExtra(Constant.KEY_MAIN_TO_UNLOCK);
-//        Log.e(TAG,"agvBeanId = "+agvBean.getGavId());
 
         singleUdp = SingleUdp.getUdpInstance();
         singleUdp.setUdpIp(spHelper.getSpAgvIp());
@@ -136,6 +126,10 @@ public class UnlockAgvActivity extends AppCompatActivity implements View.OnClick
     protected void onStart() {
         super.onStart();
         Log.e(TAG,"onStart");
+        agvBean.setGavIp(spHelper.getSpAgvIp());
+        agvBean.setGavMac(spHelper.getSpAgvMac());
+        agvBean.setGavId(spHelper.getSpAgvId());
+        Log.e(TAG, "spHelper.getSpAgvIp()="+spHelper.getSpAgvIp());
         singleUdp = SingleUdp.getUdpInstance();
         singleUdp.setUdpIp(agvBean.getGavIp());
         singleUdp.setUdpRemotePort(Constant.REMOTE_PORT);
@@ -165,8 +159,13 @@ public class UnlockAgvActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnUnlockAgv:
-                singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_UNLOCK(agvBean.getGavMac()).replace(" ", "")));
-                WaitDialog.showDialog(UnlockAgvActivity.this, "正在解锁", Constant.UNLOCK_WAIT_DIALOG_MAX_TIME, null);
+                if(TextUtils.isEmpty(spHelper.getSpAgvIp())){
+                    ToastUtil.customToast(this,"当前没有AGV，请搜索AGV");
+                }else{
+                    singleUdp.send(Util.HexString2Bytes(Constant.SEND_DATA_UNLOCK(spHelper.getSpAgvMac()).replace(" ", "")));
+                    WaitDialog.showDialog(UnlockAgvActivity.this, "正在解锁", Constant.UNLOCK_WAIT_DIALOG_MAX_TIME, null);
+                }
+
                 break;
         }
     }

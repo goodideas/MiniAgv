@@ -32,6 +32,7 @@ public class UdpHelper {
     private static UdpHelper UdpInstance;
     private Myhandler myhandler;
     private SpHelper spHelper;
+    private boolean isReSend = false;
 
 
 //    //私有构造器
@@ -112,6 +113,42 @@ public class UdpHelper {
 
     //发送
     public void send(byte[] data){
+
+        Log.e(TAG, "发送的数据=" + Util.bytes2HexString(data, data.length));
+        if(udpSendPacket==null){
+            udpSendPacket = new DatagramPacket(data, data.length, inetAddress, Constant.REMOTE_PORT);
+        }else{
+            udpSendPacket.setData(data);
+            udpSendPacket.setLength(data.length);
+        }
+
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    if (udpSocket != null) {
+                        udpSocket.send(udpSendPacket);
+                        Log.e(TAG, "udp发送成功！");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "udp发送失败！"+e.toString());
+                }
+            }
+        }.start();
+    }
+
+
+    //发送
+    public void send(byte[] data,int times){
+
+        if(times == 0){
+            //不作重发
+        }else if(times > 0){
+            //作重发times次
+
+
+        }
 
         Log.e(TAG, "发送的数据=" + Util.bytes2HexString(data, data.length));
         if(udpSendPacket==null){
