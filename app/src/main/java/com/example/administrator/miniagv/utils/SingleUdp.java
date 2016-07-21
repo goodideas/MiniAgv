@@ -134,7 +134,7 @@ public class SingleUdp {
                 try {
                     if (udpSocket != null) {
                         udpSocket.send(udpSendPacket);
-
+                        Log.e(TAG, "ip=" + udpSendPacket.getAddress().toString());
                         Log.e(TAG, "udp发送成功！");
                     }
                 } catch (IOException e) {
@@ -189,4 +189,10 @@ public class SingleUdp {
 
 }
 
+
+
+
+//FFAA58C8CF34FE18000000800200030003FF55 广播
+//192.168.0.158
+//FFAA58C8CF34FE1800000380000000FF55 解锁
 

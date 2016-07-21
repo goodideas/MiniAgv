@@ -121,6 +121,11 @@ public class UnlockAgvActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    @Override
+    protected void onResume() {
+        Log.e(TAG,"onResume");
+        super.onResume();
+    }
 
     @Override
     protected void onStart() {
