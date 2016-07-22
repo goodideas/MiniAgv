@@ -213,7 +213,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String agvMac = data.substring(Constant.DATA_MAC_START, Constant.DATA_MAC_END);
                 int dataLength = Integer.parseInt(data.substring(Constant.DATA_CONTENT_LENGTH_START_0, Constant.DATA_CONTENT_LENGTH_END_0), 16) +
                         Integer.parseInt(data.substring(Constant.DATA_CONTENT_LENGTH_START_1, Constant.DATA_CONTENT_LENGTH_END_1), 16) * 256;
-                String agvId = data.substring(Constant.DATA_CONTENT_START, Constant.DATA_CONTENT_END(dataLength));
+                String agvId = data.substring(Constant.DATA_CONTENT_START, Constant.DATA_CONTENT_END(dataLength*2));
+                Log.e(TAG,"dataLength="+dataLength+" data="+data);
                 final AgvBean agvBean = new AgvBean();
                 agvBean.setGavId(agvId);
                 agvBean.setGavIp(ip);

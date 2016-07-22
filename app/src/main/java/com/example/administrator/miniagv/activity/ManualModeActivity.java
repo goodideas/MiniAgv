@@ -30,7 +30,7 @@ public class ManualModeActivity extends AppCompatActivity {
 
     private static final String TAG = "ManualModeActivity";
 
-    private SpeedSeekBar seekBarLeft;
+        private SpeedSeekBar seekBarLeft;
     private SpeedSeekBar seekBarRight;
     private SpeedSeekBar speedSeekBarCenter;
     private Button btnManualStop;
@@ -39,7 +39,7 @@ public class ManualModeActivity extends AppCompatActivity {
     private byte leftWheel = 0x00, rightWheel = 0x00;
     private boolean flag = true;
     private TextView tvManualErrorStatus;
-    private  AgvBean agvBean;
+    private AgvBean agvBean;
     private String mManualErrorStatus;
 
     private long currentTime = 0;
@@ -60,8 +60,11 @@ public class ManualModeActivity extends AppCompatActivity {
         seekBarLeft = (SpeedSeekBar) findViewById(R.id.speedSeekBarLeft);
         seekBarRight = (SpeedSeekBar) findViewById(R.id.speedSeekBarRight);
         speedSeekBarCenter = (SpeedSeekBar) findViewById(R.id.speedSeekBarCenter);
-        tvManualErrorStatus = (TextView)findViewById(R.id.tvManualErrorStatus);
-        btnManualStop = (Button)findViewById(R.id.btnManualStop);
+
+
+
+        tvManualErrorStatus = (TextView) findViewById(R.id.tvManualErrorStatus);
+        btnManualStop = (Button) findViewById(R.id.btnManualStop);
         Intent intent = this.getIntent();
         agvBean = (AgvBean) intent.getSerializableExtra(Constant.KEY_MAIN_TO_UNLOCK);
         Log.e(TAG, "agvBeanId = " + agvBean.getGavId());
@@ -84,14 +87,14 @@ public class ManualModeActivity extends AppCompatActivity {
                             }
                         });
 
-                    } else if(Constant.CMD_UNLOCK_RESPOND.equalsIgnoreCase(cmd)){
+                    } else if (Constant.CMD_UNLOCK_RESPOND.equalsIgnoreCase(cmd)) {
                         Intent in = new Intent();
                         in.putExtra(Constant.INTENT_NAME, Constant.INTENT_VALUE);
                         setResult(Constant.AUTO_MODE_TO_FUNCTION_MENU_RESULT_CODE, in);
                         ManualModeActivity.this.finish();
 
                         //查询数据
-                    }else if (Constant.CMD_ERROR_STATU_RESPOND.equalsIgnoreCase(cmd)) {
+                    } else if (Constant.CMD_ERROR_STATU_RESPOND.equalsIgnoreCase(cmd)) {
                         String manualErrorStatus = mData.substring(Constant.DATA_CONTENT_START, Constant.DATA_CONTENT_START + 2);
                         int manualErrorStatusInt = Integer.parseInt(manualErrorStatus, 16);
                         switch (manualErrorStatusInt) {
@@ -207,7 +210,7 @@ public class ManualModeActivity extends AppCompatActivity {
 
                 Log.e(TAG, "countSend = " + countSend);
                 spd = position > 3 ? position : (3 - position);
-                //14 15 16 字节分别是 左轮速度、右轮速度、校验位
+//                14 15 16 字节分别是 左轮速度、右轮速度、校验位
 
                 new Handler().postDelayed(new Runnable() {
                     @Override

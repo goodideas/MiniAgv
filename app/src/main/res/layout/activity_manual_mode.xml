@@ -35,15 +35,6 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <!--<com.example.administrator.miniagv.views.VerticalSeekBar-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="200dp"-->
-        <!--android:id="@+id/seekBar1"-->
-        <!--android:layout_marginRight="40dp"-->
-        <!--android:layout_marginEnd="40dp"-->
-        <!--android:max="6"-->
-        <!--/>-->
-
 
         <com.example.administrator.miniagv.views.SpeedSeekBar
             android:id="@+id/speedSeekBarLeft"
@@ -104,15 +95,13 @@
             app:phased_item_width="40dp"
             app:phased_mode="vertical" />
 
-        <!--<com.example.administrator.miniagv.views.VerticalSeekBar-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="200dp"-->
-        <!--android:layout_marginLeft="40dp"-->
-        <!--android:layout_marginStart="40dp"-->
-        <!--android:id="@+id/seekBar2"-->
-        <!--android:max="6"-->
-        <!--/>-->
+
     </LinearLayout>
+
+
+
+
+
 
     <LinearLayout
         android:layout_above="@id/llSeekBar"
